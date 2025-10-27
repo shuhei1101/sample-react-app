@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { taskDetail, taskFormSchema, TaskFormSchema, taskId, taskName, taskSendMail, taskStatusId } from "../_schema/taskSchema";
+import { taskFormSchema, TaskFormSchema } from "../_schema/taskSchema";
 
 export const useTaskForm = () => {
     const defaultValues: TaskFormSchema = {
-      id: taskId.parse(0),
-      name: taskName.parse(""),
-      detail: taskDetail.parse(""),
-      statusId: taskStatusId.parse(undefined),
-      sendMail: taskSendMail.parse(false)
+      id: 0,
+      name: "",
+      detail: "",
+      statusId: undefined,
+      sendMail: false
     }
 
   const {
@@ -40,9 +40,6 @@ export const useTaskForm = () => {
     watch,
     isValueChanged,
     reset,
-    handleSave: handleSubmit(handleSave),
-    handleUpdate: handleSubmit(handleUpdate),
-    handleDelete
+    handleSubmit
   }
-
 }

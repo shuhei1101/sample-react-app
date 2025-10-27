@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { taskFormSchema, TaskId } from "../../_schema/taskSchema";
-import { updateTask } from "../../_repository/updateTask";
-import { deleteTask } from "../../_repository/deleteTask";
+import { taskFormSchema } from "../../_schema/taskSchema";
+import { updateTask } from "../../_service/updateTask";
+import { deleteTask } from "../../_service/deleteTask";
+import { DatabaseError } from "@/app/(core)/appError";
 
 /** タスクを更新する */
 export async function PUT(
@@ -17,29 +18,44 @@ export async function PUT(
     return NextResponse.json({ message: "登録成功", task });
 
   } catch (error) {
-    return NextResponse.json(
-      {error: "タスクの取得に失敗しました"},
-      { status: 500 }
-    );
+    if (error instanceof DatabaseError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.statusCode }
+      );
+    } else {
+      return NextResponse.json(
+        {error: "タスクの取得に失敗しました"},
+        { status: 500 }
+      );
+    }
   }
 }
 
 /** タスクを削除する */
 export async function DELETE(
-  { params }: { params: { id: TaskId } }
+  request: NextRequest,
 ) {
   try {
-    // 引数を取り出す
-    const { id } = params;
-    
+    // bodyからタスクを取得する
+    const body = await request.json()
+    const task = taskFormSchema.parse(body);
+
     // タスクを削除する
-    deleteTask(id)
-    return NextResponse.json({ message: "タスクの削除に成功しました", id });
+    deleteTask(task)
+    return NextResponse.json({ message: "タスクの削除に成功しました", task });
 
   } catch (error) {
-    return NextResponse.json(
-      {error: "タスクの取得に失敗しました"},
-      { status: 500 }
-    );
+    if (error instanceof DatabaseError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.statusCode }
+      );
+    } else {
+      return NextResponse.json(
+        {error: "タスクの取得に失敗しました"},
+        { status: 500 }
+      );
+    }
   }
 }

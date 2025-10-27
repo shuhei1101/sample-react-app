@@ -6,14 +6,22 @@ import { FormBackButton } from "@/app/(shared)/_components/FormBackButton";
 import { TaskStatusCombobox } from "./TaskStatusCombobox";
 import { useTask } from "../_hooks/useTask";
 import { useTaskStatuses } from "../_hooks/useTaskStatuses";
+import { useTaskDelete } from "../_handlers/useTaskDelete";
+import { useTaskSave } from "../_handlers/useTaskSave";
+import { useTaskUpdate } from "../_handlers/useTaskUpdate";
 
 type TaskFormProps = {
   id?: string;
 }
 
 export const TaskForm = (params: TaskFormProps) => {
+  /** ハンドラ */
+  const { handleDelete } = useTaskDelete()
+  const { handleSave } = useTaskSave()
+  const { handleUpdate } = useTaskUpdate()
+
   /** タスクフォーム */
-  const { register, errors, setValue, watch, isValueChanged, reset } = useTaskForm();
+  const { register, errors, setValue, watch, isValueChanged, reset, handleSubmit } = useTaskForm();
   /** 新規登録フラグ */
   const isNew = !params.id || params.id === "";
   /** ID（数値型） */
@@ -72,11 +80,11 @@ export const TaskForm = (params: TaskFormProps) => {
         <Space h="md" />
         <Group>
           {isNew ? 
-            <Button type="submit" loading={loading}>保存</Button>
+            <Button type="submit" loading={loading} onClick={handleSubmit(handleSave)} >保存</Button>
           :
           <>
-            <Button loading={loading} color="red.7" >削除</Button>
-            <Button type="submit" loading={loading}>更新</Button>
+            <Button loading={loading} color="red.7" onClick={handleSubmit(handleDelete)} >削除</Button>
+            <Button type="submit" loading={loading} onClick={handleSubmit(handleUpdate)} >更新</Button>
           </>
           }
         </Group>

@@ -13,7 +13,7 @@ export type TaskStatusComboboxProps = {
 export const TaskStatusCombobox = ({ setValue, watch, taskStatuses }: TaskStatusComboboxProps) => {
 
   /** IDからステータス名を取得する */
-  const getStatusName = (id: number) => {
+  const getStatusName = (id?: number) => {
     return taskStatuses.find(s => s.id === id)?.name;
   }
 

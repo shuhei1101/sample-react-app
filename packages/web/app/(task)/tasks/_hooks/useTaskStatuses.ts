@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchTaskStatuses } from "../_repository/fetchTaskStatuses";
 import { taskStatusSchema, TaskStatusSchema } from "../_schema/taskStatusSchema";
+import { taskQuery } from "../_query/taskQuery";
 
 export const useTaskStatuses = () => {
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ export const useTaskStatuses = () => {
 
       try {
         // タスクステータスを取得する
-        const taskStatuses = await fetchTaskStatuses()
+        const taskStatuses = await taskQuery.fetchTaskStatuses()
 
         if (taskStatuses.length === 0) {
           console.log("ステータスが存在しません");

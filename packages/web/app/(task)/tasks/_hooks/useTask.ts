@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { SetTaskForm } from "../_schema/taskSchema";
-import { fetchTask } from "../_repository/fetchTask";
+import { taskQuery } from "../_query/taskQuery";
+import { TaskEntity } from "../_data-access/taskEntity";
 
 export const useTask = ({setForm, id, isNew  }: {
   setForm: SetTaskForm,
@@ -21,9 +22,9 @@ export const useTask = ({setForm, id, isNew  }: {
         // ロード中にする
         setLoading(true)
 
-        const task = await fetchTask({ id });
+        const task: TaskEntity = await taskQuery.fetchTask(id);
         if (!task) {
-          console.log("タスクが存在しません");
+          console.log("該当のタスクが存在しません。");
           return;
         }
         
@@ -32,15 +33,15 @@ export const useTask = ({setForm, id, isNew  }: {
           id: task.id,
           name: task.name,
           detail: task.detail,
-          sendMail: task.sendMail,
-          statusId: task.status
+          sendMail: task.send_mail,
+          statusId: task.status_id
         });
         // ロード中を解除する
         setLoading(false)
 
       } catch (error) {
         console.log(error)
-        alert(`タスクの取得に失敗しました。${error}` )
+        alert(`該当データが存在しません。` )
         throw error;
       }
     };
