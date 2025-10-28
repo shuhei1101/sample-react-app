@@ -14,11 +14,12 @@ export async function PUT(
     const task = taskFormSchema.parse(body);
 
     // タスクを更新する
-    updateTask(task)
+    await updateTask(task)
+    
     return NextResponse.json({ message: "登録成功", task });
-
   } catch (error) {
     if (error instanceof DatabaseError) {
+      // データベースエラーのハンドル
       return NextResponse.json(
         { error: error.message },
         { status: error.statusCode }
@@ -42,11 +43,12 @@ export async function DELETE(
     const task = taskFormSchema.parse(body);
 
     // タスクを削除する
-    deleteTask(task)
-    return NextResponse.json({ message: "タスクの削除に成功しました", task });
+    await deleteTask(task)
 
+    return NextResponse.json({ message: "タスクの削除に成功しました", task });
   } catch (error) {
     if (error instanceof DatabaseError) {
+      // データベースエラーのハンドル
       return NextResponse.json(
         { error: error.message },
         { status: error.statusCode }

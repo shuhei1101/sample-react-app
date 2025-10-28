@@ -1,4 +1,4 @@
-import { supabase } from "@/app/(core)/supabase";
+import { serverSupabase } from "@/app/(core)/supabase/serverSupabase";
 import { DatabaseError } from "@/app/(core)/appError";
 import { taskExclusiveControl } from "./taskExclusiveControl";
 import { TaskDelete, TaskInsert, TaskUpdate } from "./taskEntity";
@@ -7,7 +7,7 @@ export const taskDao = {
   
   /** タスクを挿入する */
   insert: async (record: TaskInsert) => {
-    const { data, error } = await supabase.from("tasks")
+    const { data, error } = await serverSupabase.from("tasks")
     .insert([record])
     .select("id")
     .single();
@@ -32,7 +32,7 @@ export const taskDao = {
     })
 
     // タスクを更新する
-    const {error} = await supabase.from("tasks")
+    const {error} = await serverSupabase.from("tasks")
     .update(record)
     .eq("id", record.id);
     
@@ -54,7 +54,7 @@ export const taskDao = {
     })
 
     // タスクを削除する
-    const { error } = await supabase.from("tasks")
+    const { error } = await serverSupabase.from("tasks")
       .delete()
       .eq("id", record.id);
     

@@ -13,14 +13,13 @@ export async function POST(
     const task = taskFormSchema.parse(body);
 
     // タスクを登録する
-    const data = createTask(task);
+    const id = await createTask(task);
 
     // 作成されたタスクのIDを返却する
-    const id = data
     return NextResponse.json({ message: "登録成功", id });
-
   } catch (error) {
     if (error instanceof DatabaseError) {
+      // データベースエラーのハンドル
       return NextResponse.json(
         { error: error.message },
         { status: error.statusCode }

@@ -11,6 +11,7 @@ export const taskApi = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(task)
     }).then(res => res.json())
+    return createdTask
   },
   
   /** タスクを更新する */

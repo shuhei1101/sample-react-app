@@ -1,20 +1,21 @@
-'use client';
-import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
-import { SetTaskValue, UseTaskWatch } from "../_schema/taskSchema";
-import { TaskStatusSchema } from "../_schema/taskStatusSchema";
+'use client'
+import { Combobox, Input, InputBase, useCombobox } from "@mantine/core"
+import { SetTaskValue, UseTaskWatch } from "../_schema/taskSchema"
+import { TaskStatusSchema } from "../_schema/taskStatusSchema"
 
 /** 引数 */
 export type TaskStatusComboboxProps = {
-  setValue: SetTaskValue;
-  watch: UseTaskWatch;
-  taskStatuses: TaskStatusSchema[];
+  setTaskValue: SetTaskValue
+  watchTask: UseTaskWatch
+  taskStatuses: TaskStatusSchema[]
 }
 
-export const TaskStatusCombobox = ({ setValue, watch, taskStatuses }: TaskStatusComboboxProps) => {
+/** タスクステータスコンボボックス */
+export const TaskStatusCombobox = ({ setTaskValue, watchTask, taskStatuses }: TaskStatusComboboxProps) => {
 
-  /** IDからステータス名を取得する */
+  /** タスクIDからステータス名を取得する */
   const getStatusName = (id?: number) => {
-    return taskStatuses.find(s => s.id === id)?.name;
+    return taskStatuses.find(s => s.id === id)?.name
   }
 
   // コンボボックスの選択肢を初期化する
@@ -22,21 +23,25 @@ export const TaskStatusCombobox = ({ setValue, watch, taskStatuses }: TaskStatus
     <Combobox.Option value={item.id.toString()} key={item.id}>
       {item.name}
     </Combobox.Option>
-  ));
+  ))
 
   // コンボボックスを初期化する
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
-  });
+  })
+
+  /** コンボボックス選択時 */
+  const onOptionalSubmit = (val: string) => {
+    // タスクIDを状態にセットする
+    setTaskValue("statusId", parseInt(val, 10))
+    // ドロップダウンを閉じる
+    combobox.closeDropdown()
+  }
 
   return (
     <Combobox
       store={combobox}
-      onOptionSubmit={(val) => {
-        console.log(`ステータスは${val}`)
-        setValue("statusId", parseInt(val, 10));
-        combobox.closeDropdown();
-      }}
+      onOptionSubmit={onOptionalSubmit}
     >
       {/* コンボボックス入力中の設定 */}
       <Combobox.Target>
@@ -45,7 +50,7 @@ export const TaskStatusCombobox = ({ setValue, watch, taskStatuses }: TaskStatus
           pointer rightSection={<Combobox.Chevron />} rightSectionPointerEvents="none"
           onClick={() => combobox.toggleDropdown()} className="max-w-40"
         >
-          {getStatusName(watch("statusId")) || <Input.Placeholder>-</Input.Placeholder>}
+          {getStatusName(watchTask("statusId")) || <Input.Placeholder>-</Input.Placeholder>}
         </InputBase>
       </Combobox.Target>
 

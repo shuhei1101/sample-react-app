@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { UseFormSetValue, UseFormWatch, UseFormReset } from "react-hook-form";
+import { TaskEntity } from "../_data-access/taskEntity";
 
 /** タスクフォームスキーマ */
 export const taskFormSchema = z.object({
@@ -30,3 +31,16 @@ export type SetTaskValue = UseFormSetValue<TaskFormSchema>;
 export type SetTaskForm = UseFormReset<TaskFormSchema>;
 /** タスク状態監視の型 */
 export type UseTaskWatch = UseFormWatch<TaskFormSchema>;
+
+/** エンティティからタスクフォームスキーマを生成する */
+export const taskEntityToSchema = (entity: TaskEntity): TaskFormSchema => {
+  return {
+    id: entity.id,
+    name: entity.name,
+    detail: entity.detail,
+    sendMail: entity.send_mail,
+    statusId: entity.status_id,
+    createdAt: entity.created_at,
+    updatedAt: entity.updated_at
+}
+}

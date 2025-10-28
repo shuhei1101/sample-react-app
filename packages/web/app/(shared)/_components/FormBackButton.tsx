@@ -2,8 +2,6 @@ import { Button } from "@mantine/core"
 import { useRouter } from "next/navigation";
 
 export const FormBackButton = ({isValueChanged}: {isValueChanged: boolean}) => {
-  
-
   const onClick = () => {
     if (isValueChanged) {
       const isOk = window.confirm(
