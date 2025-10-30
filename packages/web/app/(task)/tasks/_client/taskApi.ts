@@ -15,16 +15,20 @@ export const taskApi = {
   },
   
   /** タスクを更新する */
-  update: (task: TaskFormSchema) => fetch(`${apiUrl}/tasks/${task.id}/api`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(task)
-  }).then(res => res.json()),
+  update: async (task: TaskFormSchema) => {
+    await fetch(`${apiUrl}/tasks/api`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(task)
+    }).then(res => res.json())
+  },
   
   /** タスクを削除する */
-  delete: (task: TaskFormSchema) => fetch(`${apiUrl}/tasks/${task.id}/api`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(task)
-  }).then(res => res.json()),
+  delete: async (task: TaskFormSchema) => {
+    await fetch(`${apiUrl}/tasks/api`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(task)
+    }).then(res => res.json())
+  },
 }

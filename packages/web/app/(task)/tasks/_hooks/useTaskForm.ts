@@ -14,7 +14,9 @@ export const useTaskForm = ({id}: {id: number}) => {
     name: "",
     detail: "",
     statusId: undefined,
-    sendMail: false
+    sendMail: false,
+    createdAt: undefined,
+    updatedAt: undefined
   }
 
   // タスクフォームの状態を作成する
@@ -26,7 +28,7 @@ export const useTaskForm = ({id}: {id: number}) => {
     watch,
     reset,
   } = useForm<TaskFormSchema>({
-    resolver: zodResolver(taskFormSchema),
+    resolver: zodResolver(taskFormSchema) as any,
     defaultValues: defaultTask
   })
 

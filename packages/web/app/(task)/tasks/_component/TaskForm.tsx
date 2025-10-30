@@ -8,7 +8,10 @@ import { useTaskStatuses } from "../_hooks/useTaskStatuses";
 import { useTaskDelete } from "../_handlers/useTaskDelete";
 import { useTaskSave } from "../_handlers/useTaskSave";
 import { useTaskUpdate } from "../_handlers/useTaskUpdate";
-import { Toaster } from "react-hot-toast";
+import { Toaster} from "react-hot-toast";
+import toast from "react-hot-toast"
+import { feedbackMessage } from "@/app/(shared)/_util/feedbackMessage";
+import { useEffect } from "react";
 
 type TaskFormProps = {
   /** タスクID */
@@ -17,6 +20,13 @@ type TaskFormProps = {
 
 /** タスクフォーム */
 export const TaskForm = (params: TaskFormProps) => {
+
+  // レンダリング時の処理
+  useEffect(() => {
+    // セッションストレージにメッセージがある場合、表示する
+    feedbackMessage.out();
+  }, []);
+
   /** ハンドラ */
   const { handleDelete } = useTaskDelete()
   const { handleSave } = useTaskSave()
@@ -43,7 +53,7 @@ export const TaskForm = (params: TaskFormProps) => {
         <Box pos="relative" className="max-w-120">
           {/* ロード中のオーバーレイ */}
           <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-            <form>
+            <form onSubmit={handleSubmit(isNew ? handleSave : handleUpdate)}>
               <div className="flex flex-col gap-2">
                 <div>
                   <Input.Wrapper label="ID" error={errors.id?.message} required>
@@ -81,13 +91,11 @@ export const TaskForm = (params: TaskFormProps) => {
             <Space h="md" />
             <Group>
               {isNew ? 
-                // 新規登録時
-                <Button loading={loading} onClick={handleSubmit(handleSave)} >保存</Button>
+                <Button type="submit" loading={loading} >保存</Button>
               :
               <>
-                {/* 編集時 */}
-                <Button loading={loading} color="red.7" onClick={handleSubmit(handleDelete)} >削除</Button>
-                <Button loading={loading} onClick={handleSubmit(handleUpdate)} >更新</Button>
+                <Button loading={loading} color="red.7" onClick={() => handleDelete(fetchedTask)} >削除</Button>
+                <Button type="submit" loading={loading} >更新</Button>
               </>
               }
             </Group>

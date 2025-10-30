@@ -2,9 +2,9 @@ import { taskDao } from "../_data-access/taskDao";
 import { TaskFormSchema } from "../_schema/taskSchema";
 
 /** タスクを更新する */
-export const updateTask = (task: TaskFormSchema) => {
+export const updateTask = async (task: TaskFormSchema) => {
   // タスクを更新する
-  taskDao.update({
+  await taskDao.update({
     id: task.id!,
     name: task.name,
     detail: task.detail,

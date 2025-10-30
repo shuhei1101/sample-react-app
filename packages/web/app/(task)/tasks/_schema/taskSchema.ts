@@ -15,9 +15,9 @@ export const taskFormSchema = z.object({
   /** メール送信フラグ */
   sendMail: z.boolean(),
   /** 作成日時 */
-  createdAt: z.date().optional(),
+  createdAt: z.string().optional().transform((val) => val ? new Date(val) : undefined),
   /** 更新日時 */
-  updatedAt: z.date().optional(),
+  updatedAt: z.string().optional().transform((val) => val ? new Date(val) : undefined),
 }).refine((data) => data.statusId !== undefined, {
   message: "ステータスは必須です。",
   path: ["statusId"],
