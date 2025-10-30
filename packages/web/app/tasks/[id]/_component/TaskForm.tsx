@@ -1,17 +1,16 @@
 'use client';
 import { PageLayout } from "@/app/(shared)/_components/PageLayout";
 import { Box, Button, Checkbox, Group, Input, LoadingOverlay, Space, Textarea} from "@mantine/core";
-import { useTaskForm } from "../_hooks/useTaskForm";
+import { useTaskForm } from "../../_hooks/useTaskForm";
 import { FormBackButton } from "@/app/(shared)/_components/FormBackButton";
 import { TaskStatusCombobox } from "./TaskStatusCombobox";
-import { useTaskStatuses } from "../_hooks/useTaskStatuses";
-import { useTaskDelete } from "../_handlers/useTaskDelete";
-import { useTaskSave } from "../_handlers/useTaskSave";
-import { useTaskUpdate } from "../_handlers/useTaskUpdate";
+import { useTaskStatuses } from "../../_hooks/useTaskStatuses";
+import { useTaskDelete } from "../../_handlers/useTaskDelete";
+import { useTaskSave } from "../../_handlers/useTaskSave";
+import { useTaskUpdate } from "../../_handlers/useTaskUpdate";
 import { Toaster} from "react-hot-toast";
-import toast from "react-hot-toast"
-import { feedbackMessage } from "@/app/(shared)/_util/feedbackMessage";
 import { useEffect } from "react";
+import { appStorage } from "@/app/(shared)/_sessionStorage/appStorage";
 
 type TaskFormProps = {
   /** タスクID */
@@ -24,7 +23,7 @@ export const TaskForm = (params: TaskFormProps) => {
   // レンダリング時の処理
   useEffect(() => {
     // セッションストレージにメッセージがある場合、表示する
-    feedbackMessage.out();
+    appStorage.feedbackMessage.out();
   }, []);
 
   /** ハンドラ */

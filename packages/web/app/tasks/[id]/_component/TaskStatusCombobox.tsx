@@ -1,7 +1,7 @@
 'use client'
 import { Combobox, Input, InputBase, useCombobox } from "@mantine/core"
-import { SetTaskValue, UseTaskWatch } from "../_schema/taskSchema"
-import { TaskStatusSchema } from "../_schema/taskStatusSchema"
+import { SetTaskValue, UseTaskWatch } from "../../_schema/taskSchema"
+import { TaskStatusSchema } from "../../_schema/taskStatusSchema"
 
 /** 引数 */
 export type TaskStatusComboboxProps = {
