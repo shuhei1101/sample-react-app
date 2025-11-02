@@ -5,15 +5,18 @@ export const taskExclusiveControl = {
   /** 既に存在するかどうかを確認する */
   existsCheck: async (id: number) => {
     const record = await fetchTask(id)
-    if (record === undefined) throw new DatabaseError("既に削除されたタスクです。")
+    if (!record) throw new DatabaseError("既に削除されたタスクです。")
     return record
   },
   /** 他のユーザに更新されたか確認する（更新日時による排他チェック） */
   hasAlreadyUpdated: ({beforeDate, afterDate}: {
-    beforeDate: Date,
-    afterDate: Date
+    beforeDate: Date | string,
+    afterDate: Date | string
   }) => {
-    if (beforeDate != afterDate) {
+    const before = typeof beforeDate === "string" ? new Date(beforeDate) : beforeDate;
+    const after = typeof afterDate === "string" ? new Date(afterDate) : afterDate;
+
+    if (before.getTime() !== after.getTime()) {
       // 排他例外を発生させる
       throw new DatabaseError("他のユーザによって更新されました。")
     }

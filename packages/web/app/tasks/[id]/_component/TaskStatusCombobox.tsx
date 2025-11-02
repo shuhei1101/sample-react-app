@@ -1,29 +1,28 @@
 'use client'
 import { Combobox, Input, InputBase, useCombobox } from "@mantine/core"
 import { SetTaskValue, UseTaskWatch } from "../../_schema/taskSchema"
-import { TaskStatusSchema } from "../../_schema/taskStatusSchema"
+import { task_statuses } from "@/app/generated/prisma/client"
+import { getStatusName } from "../../_schema/taskStatusSchema"
 
-/** 引数 */
-export type TaskStatusComboboxProps = {
-  setTaskValue: SetTaskValue
-  watchTask: UseTaskWatch
-  taskStatuses: TaskStatusSchema[]
-}
 
 /** タスクステータスコンボボックス */
-export const TaskStatusCombobox = ({ setTaskValue, watchTask, taskStatuses }: TaskStatusComboboxProps) => {
-
-  /** タスクIDからステータス名を取得する */
-  const getStatusName = (id?: number) => {
-    return taskStatuses.find(s => s.id === id)?.name
-  }
+export const TaskStatusCombobox = ({ onChanged, currentValue, taskStatuses }: {
+  onChanged: (val: number | undefined) => void
+  currentValue: number | undefined
+  taskStatuses: task_statuses[]
+}) => {
 
   // コンボボックスの選択肢を初期化する
-  const statusOptions = taskStatuses.map((item) => (
-    <Combobox.Option value={item.id.toString()} key={item.id}>
-      {item.name}
-    </Combobox.Option>
-  ))
+  const statusOptions = [
+    <Combobox.Option value={"-1"} key={-1}>
+      -
+    </Combobox.Option>,
+    taskStatuses.map((item) => (
+      <Combobox.Option value={item.id.toString()} key={item.id}>
+        {item.name}
+      </Combobox.Option>
+    ))
+  ]
 
   // コンボボックスを初期化する
   const combobox = useCombobox({
@@ -32,8 +31,9 @@ export const TaskStatusCombobox = ({ setTaskValue, watchTask, taskStatuses }: Ta
 
   /** コンボボックス選択時 */
   const onOptionalSubmit = (val: string) => {
-    // タスクIDを状態にセットする
-    setTaskValue("statusId", parseInt(val, 10))
+    const selectedValue = val !== "-1" ? Number(val) : undefined
+    // 変更を通知する
+    onChanged(selectedValue)
     // ドロップダウンを閉じる
     combobox.closeDropdown()
   }
@@ -48,9 +48,9 @@ export const TaskStatusCombobox = ({ setTaskValue, watchTask, taskStatuses }: Ta
         <InputBase
           component="button" type="button"
           pointer rightSection={<Combobox.Chevron />} rightSectionPointerEvents="none"
-          onClick={() => combobox.toggleDropdown()} className="max-w-40"
+          onClick={() => combobox.toggleDropdown()} className="w-40"
         >
-          {getStatusName(watchTask("statusId")) || <Input.Placeholder>-</Input.Placeholder>}
+          {getStatusName(taskStatuses, currentValue) || <Input.Placeholder>-</Input.Placeholder>}
         </InputBase>
       </Combobox.Target>
 

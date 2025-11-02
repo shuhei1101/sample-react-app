@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { taskEntityToSchema, taskFormSchema, TaskFormSchema } from "../_schema/taskSchema"
+import { taskEntityToSchema, taskFormSchema, TaskFormSchema } from "../../_schema/taskSchema"
 import useSWR from "swr"
-import { fetchTask } from "../_query/taskQuery"
+import { fetchTask } from "../../_query/taskQuery"
 import { useEffect, useState } from "react"
 
 /** タスクフォームを取得する */

@@ -1,5 +1,9 @@
-import { ReactNode } from "react"
+"use client"
+
+import { ReactNode, useEffect } from "react"
 import { Button, Space, Title } from "@mantine/core";
+import { Toaster } from "react-hot-toast";
+import { appStorage } from "../_sessionStorage/appStorage";
 
 type PageLayoutProps = {
   title: string;
@@ -8,6 +12,12 @@ type PageLayoutProps = {
 }
 
 export const PageLayout = ({ children, title, actionButtons }: PageLayoutProps) => {
+  // レンダリング時の処理
+  useEffect(() => {
+    // セッションストレージにメッセージがある場合、表示する
+    appStorage.feedbackMessage.out();
+  }, []);
+  
   return (
     <div>
       <div className="flex">
@@ -19,6 +29,9 @@ export const PageLayout = ({ children, title, actionButtons }: PageLayoutProps) 
       </div>
       <Space h="md" />
       {children}
+      <Toaster />
     </div>
+    
+
   )
 }

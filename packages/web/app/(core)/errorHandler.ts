@@ -1,6 +1,6 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
-import { AppError, UNKNOWN_ERROR } from "./appError"
-import { HOME_URL } from "../(shared)/_constants/appConstants"
+import { AppError, DatabaseError, UNKNOWN_ERROR } from "./appError"
+import { HOME_URL } from "./appConstants"
 import { appStorage } from "../(shared)/_sessionStorage/appStorage"
 import { NextResponse } from "next/server"
 
@@ -26,7 +26,8 @@ export const handleServerError = (error: any) => {
       // 想定外のエラー
       return NextResponse.json({ code: UNKNOWN_ERROR, message: error.message }, { status: 500 });
     }
-  }
+}
+
 
 // API層で発生した例外のハンドル
 export const handleAPIError = async (res: Response) => {
@@ -55,4 +56,11 @@ export const handleAppError = (error: any, router: AppRouterInstance) => {
   } else {
     console.error("不明なエラー:", error);
   }
+}
+
+// データ取得例外時のハンドル
+export const handleQueryError = (error: any, targetName: string) => {
+  const fetchedDataName = targetName ? targetName : "データ"
+  console.log(`${fetchedDataName}取得時にエラーが発生しました。: ${error}`)
+  throw new DatabaseError(`${fetchedDataName}取得時にエラーが発生しました。`)
 }

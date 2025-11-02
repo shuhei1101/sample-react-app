@@ -1,6 +1,14 @@
 import { z } from "zod";
 import { UseFormSetValue, UseFormWatch, UseFormReset } from "react-hook-form";
-import { TaskEntity } from "../_data-access/taskEntity";
+import { tasks } from "@/app/generated/prisma/client";
+
+// 更新用
+export type TaskInsert = Omit<tasks, "id" | "created_at"| "updated_at">
+export type TaskUpdate = Omit<tasks, "created_at">
+export type TaskDelete = Pick<tasks, "id" | "updated_at">
+
+// タスクのカラム名
+export type TaskColumns = keyof tasks;
 
 /** タスクフォームスキーマ */
 export const taskFormSchema = z.object({
@@ -17,7 +25,7 @@ export const taskFormSchema = z.object({
   /** 作成日時 */
   createdAt: z.string().optional().transform((val) => val ? new Date(val) : undefined),
   /** 更新日時 */
-  updatedAt: z.string().optional().transform((val) => val ? new Date(val) : undefined),
+  updatedAt: z.string().optional().transform((val) => val ? new Date(val) : undefined)
 }).refine((data) => data.statusId !== undefined, {
   message: "ステータスは必須です。",
   path: ["statusId"],
@@ -33,7 +41,7 @@ export type SetTaskForm = UseFormReset<TaskFormSchema>;
 export type UseTaskWatch = UseFormWatch<TaskFormSchema>;
 
 /** エンティティからタスクフォームスキーマを生成する */
-export const taskEntityToSchema = (entity: TaskEntity): TaskFormSchema => {
+export const taskEntityToSchema = (entity: tasks): TaskFormSchema => {
   return {
     id: entity.id,
     name: entity.name,
@@ -42,5 +50,39 @@ export const taskEntityToSchema = (entity: TaskEntity): TaskFormSchema => {
     statusId: entity.status_id,
     createdAt: entity.created_at,
     updatedAt: entity.updated_at
+  }
 }
+
+/** タスクフィルター */
+export type TaskFilterSchema = Partial<Pick<tasks, 
+  "id" | "name" | "status_id"
+>>
+
+/** クエリオブジェクトからタスクフィルターに変換する */
+export const createTaskFilterFromQueryObj = (queryObj: any) => {
+  if (!queryObj) return {}
+
+  const result: TaskFilterSchema = {}
+
+  try {
+    if (queryObj.id) {
+      result.id = queryObj.id
+    }
+  } catch {
+    console.log("IDの型変換に失敗しました。")
+  }
+  
+  if (queryObj.name) {
+    result.name = queryObj.name
+  }
+  
+  try {
+    if (queryObj.status_id) {
+      result.status_id = queryObj.status_id
+    }
+  } catch {
+    console.log("ステータスIDの型変換に失敗しました。")
+  }
+
+  return result
 }

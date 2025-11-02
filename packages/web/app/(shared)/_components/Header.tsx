@@ -1,4 +1,5 @@
 "use client";
+import { HOME_URL, TASKS_URL } from '@/app/(core)/appConstants';
 import { Burger, Drawer, Button, Badge, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconHome2, IconUsers, IconFiles, IconFolders, IconCircleOff } from '@tabler/icons-react';
@@ -13,12 +14,12 @@ export default function Header() {
       </div>
       <Drawer opened={opened} onClose={close} title="メニュー" size="xs">
         <NavLink
-          href="#"
+          href={`${HOME_URL}`}
           label="ホーム"
           leftSection={<IconHome2 size={16} stroke={1.5} />}
         />
         <NavLink
-          href="#"
+          href={`${TASKS_URL}`}
           label="タスク一覧"
           leftSection={<IconFiles size={16} stroke={1.5} />}
         />

@@ -1,24 +1,7 @@
-import { z } from "zod"
-import { TaskStatusEntity } from "../_data-access/taskEntity"
+import { task_statuses } from "@/app/generated/prisma/client"
+import { z } from "zod";
 
-/** タスクステータススキーマ */
-export const taskStatusSchema = z.object({
-  id: z.number(),
-  name: z.string()
-})
-
-/** タスクステータスの型 */
-export type TaskStatusSchema = z.infer<typeof taskStatusSchema>
-
-/** エンティティからタスクステータスを生成する */
-export const createTaskStatusFromEntity = (entity: TaskStatusEntity): TaskStatusSchema => {
-  return {
-    id: entity.id,
-    name: entity.name,
+  /** タスクステータスIDからステータス名を取得する */
+  export const getStatusName = (statuses: task_statuses[], id?: number) => {
+    return statuses.find(s => s.id === id)?.name
   }
-}
-
-/** エンティティリストからタスクステータスリストを生成する */
-export const createTaskStatusesFromEntities = (entities: TaskStatusEntity[]): TaskStatusSchema[] => {
-  return entities.map((entity) => createTaskStatusFromEntity(entity))
-}
