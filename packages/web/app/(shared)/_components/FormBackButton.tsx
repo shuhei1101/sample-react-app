@@ -1,15 +1,18 @@
 import { Button } from "@mantine/core"
 import { useRouter } from "next/navigation";
 
-export const FormBackButton = ({isValueChanged}: {isValueChanged: boolean}) => {
+export const FormBackButton = ({isValueChanged, previousScreenURL}: {
+  isValueChanged: boolean,
+  previousScreenURL: string
+}) => {
   const onClick = () => {
     if (isValueChanged) {
       const isOk = window.confirm(
         "入力内容が破棄されますがよろしいですか？"
       );
-      if (isOk) router.back() // 前画面へ遷移
+      if (isOk) router.push(previousScreenURL)
     } else {
-      router.back() // 前画面へ遷移
+      router.push(previousScreenURL)
     }
   }
 

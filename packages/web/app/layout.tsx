@@ -5,9 +5,6 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import 'mantine-datatable/styles.layer.css';
 
-import Header from "./(shared)/_components/Header"
-import { ErrorBoundary } from "next/dist/client/components/error-boundary";
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,12 +30,12 @@ export default function RootLayout({
       <head>
         <title>サンプルアプリ</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
-        <ColorSchemeScript defaultColorScheme="auto" />
+        <ColorSchemeScript/>
       </head>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <MantineProvider defaultColorScheme="auto">
-            <Header />
-            <div className="m-3">
+          <MantineProvider>
+            
+            <div>
               {children}
             </div>
           </MantineProvider>

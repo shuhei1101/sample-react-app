@@ -2,10 +2,10 @@
 
 import { useEffect } from "react"
 import { appStorage } from "./(shared)/_sessionStorage/appStorage"
-import { PageLayout } from "./(shared)/_components/PageLayout"
 import { Button } from "@mantine/core"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { HOME_URL } from "./(core)/appConstants"
+import { AuthorizedPageLayout } from "./(auth)/_components/AuthorizedPageLayout"
 
 export default function ErrorPage({
   error,
@@ -23,17 +23,17 @@ export default function ErrorPage({
   }, [])
 
   return (
-    <PageLayout title="エラー" actionButtons={(
+    <AuthorizedPageLayout title="エラー" actionButtons={(
       <Button onClick={() => {
         router.push(`${HOME_URL}`)
       }}>ホームへ</Button>
     )}>
     <div>
-      <h2>Something went wrong!</h2>
+      <h2>不明なエラーが発生しました。</h2>
       <button type="button" onClick={() => reset()}>
-        Try again
+        再度アクセスしてください。
       </button>
     </div>
-    </PageLayout>
+    </AuthorizedPageLayout>
   )
 }
