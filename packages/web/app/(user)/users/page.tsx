@@ -113,7 +113,7 @@ function UsersContent() {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div>読み込み中...</div>}>
+    <Suspense fallback={<div></div>}>
       <UsersContent />
     </Suspense>
   )
