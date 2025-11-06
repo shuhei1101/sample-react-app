@@ -56,7 +56,7 @@ export async function DELETE(
   try {
     // bodyからタスクを取得する
     const body: RegisterTaskRequest = await request.json()
-    const task = taskFormSchema.parse(body);
+    const task = body as TaskFormSchema
 
     // タスクを削除する
     await deleteTask(task)

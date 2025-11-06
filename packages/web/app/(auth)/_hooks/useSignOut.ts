@@ -1,5 +1,5 @@
 "use client"
-import { clientSupabase } from "@/app/(core)/supabase/clientSupabase";
+import { clientSupabase } from "@/app/(core)/_supabase/clientSupabase";
 import { appStorage } from "../../(shared)/_sessionStorage/appStorage";
 import { useRouter } from "next/navigation";
 import { LOGIN_URL } from "@/app/(core)/appConstants";

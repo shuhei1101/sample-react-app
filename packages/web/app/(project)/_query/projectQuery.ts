@@ -1,6 +1,35 @@
 import { RawProject, ProjectColumns, ProjectFilterSchema } from "../_schema/projectSchema";
 import { SortOrder } from "@/app/(core)/appSchema";
-import { clientSupabase } from "@/app/(core)/supabase/clientSupabase";
+import { clientSupabase } from "@/app/(core)/_supabase/clientSupabase";
+import { RawUser } from "@/app/(user)/_schema/userSchema";
+
+export type FetchProjectResult = RawProject & {
+  project_members: {
+    profiles: RawUser[]
+  }[]
+}
+
+/** IDに紐づくプロジェクトを取得する */
+export const fetchProject = async (id: number) => {
+  // データを取得する
+  const { data, error } = await clientSupabase.from("projects")
+      .select(`
+        *,
+        project_members (
+          *, 
+          profiles (*)
+        )
+      `)
+      .eq("id", id).single();
+
+    // エラーをチェックする
+    if (error) throw error;
+
+    console.log(`メンバー: ${JSON.stringify(data)}`)
+    return data as FetchProjectResult
+}
+
+export type FetchProjectsResult = FetchProjectResult[]
 
 /** 検索条件に一致するプロジェクトを取得する */
 export const fetchProjects = async ({
@@ -17,12 +46,15 @@ export const fetchProjects = async ({
   pageSize: number
 }) => {
     // データを取得する
-    let query = clientSupabase.from("projects").select('*', { count: 'exact' })
+    let query = clientSupabase.from("projects")
+      .select(`
+        *,
+        project_members (*)
+      `, { count: 'exact' })
 
     // フィルター
     if (filter.id !== undefined) query = query.eq("id", filter.id)
     if (filter.name !== undefined) query = query.ilike("name", `%${filter.name}%`)
-    if (filter.is_public !== undefined) query = query.eq("is_public", filter.is_public)
 
     // ソート
     query = query.order(sortColumn, {ascending: sortOrder === "asc"})
@@ -35,20 +67,7 @@ export const fetchProjects = async ({
     if (error) throw error
 
     return {
-      projects: data as RawProject[] ?? [],
+      projects: data as FetchProjectsResult ?? [],
       totalRecords: count
     }
-}
-
-/** IDに紐づくプロジェクトを取得する */
-export const fetchProject = async (id: number) => {
-  // データを取得する
-  const { data, error } = await clientSupabase.from("projects")
-      .select('*')
-      .eq("id", id).single();
-
-    // エラーをチェックする
-    if (error) throw error;
-
-    return data as RawProject
 }

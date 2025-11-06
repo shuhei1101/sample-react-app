@@ -1,36 +1,55 @@
 "use client"
 
-import { ReactNode, useEffect } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { LoadingOverlay, Title } from "@mantine/core";
 import { FeedbackMessageWrapper } from "../../(shared)/_components/FeedbackMessageWrapper";
 import Header from "../../(shared)/_components/Header";
 import { useDisclosure } from "@mantine/hooks";
 import { RegisterNamePopup } from "./RegisterNamePopup";
 import { useLoginUserInfo } from "../_hooks/useLoginUserInfo";
+import { useRouter } from "next/navigation";
+import { AUTH_ERROR_URL } from "../../(core)/appConstants";
 
 /** 認証済みのページに適用するレイアウト */
-export const AuthorizedPageLayout = ({ children, title, actionButtons }: {
-  title: string;
-  actionButtons?: ReactNode;
-  children: ReactNode;
+export const AuthorizedPageLayout = ({ children, title, actionButtons, requireAdmin, guestNG }: {
+  title: string
+  actionButtons?: ReactNode
+  children: ReactNode
+  requireAdmin?: boolean
+  guestNG?: boolean
 }) => {
+  const router = useRouter()
 
   /** 名前入力ポップアッププロパティ */
   const [popupOpened, { open: openPopup, close: closePopup }] = useDisclosure(false);
 
   /** ログインユーザ情報 */
-  const {userId, userInfo, isLoading} = useLoginUserInfo()
+  const {userId, userInfo, isLoading, isAdmin, isGuest} = useLoginUserInfo()
 
-  // 初回ロード時
+  // 画面の権限チェックを行う
+  const [redirected, setRedirected] = useState(false)
   useEffect(() => {
-    if (!isLoading) {
-      // ユーザ情報を取得できなかった場合
-      if (!userInfo) {
-        // 名前入力ポップアップを表示する
-        openPopup()
-      }
+    if (isLoading || redirected) return
+
+    // 管理者権限が必要な場合
+    if (requireAdmin && !isAdmin) {
+      router.push(AUTH_ERROR_URL)
+      setRedirected(true)
+      return
     }
-  }, [userInfo, isLoading])
+
+    // ゲスト禁止画面の場合
+    if (guestNG && isGuest) {
+      router.push(AUTH_ERROR_URL)
+      setRedirected(true)
+      return
+    }
+
+    if (!userInfo) {
+      openPopup()
+    }
+  }, [isLoading, isAdmin, isGuest, requireAdmin, guestNG, userInfo, router, redirected])
+
   
   return (
     <>
@@ -56,7 +75,7 @@ export const AuthorizedPageLayout = ({ children, title, actionButtons }: {
         {/* 子コンポーネント */}
         {children}
       </div>
-      <RegisterNamePopup close={closePopup} opened={popupOpened} userId={userId} />
+      <RegisterNamePopup close={closePopup} opened={popupOpened} userId={userId!} />
     </FeedbackMessageWrapper>
     </>
   )

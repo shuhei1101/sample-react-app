@@ -1,6 +1,6 @@
 import { RawTask, TaskColumns, TaskFilterSchema } from "../_schema/taskSchema";
 import { SortOrder } from "@/app/(core)/appSchema";
-import { clientSupabase } from "@/app/(core)/supabase/clientSupabase";
+import { clientSupabase } from "@/app/(core)/_supabase/clientSupabase";
 import { RawTaskStatus } from "../_schema/taskStatusSchema";
 
 /** 検索条件に一致するタスクを取得する */

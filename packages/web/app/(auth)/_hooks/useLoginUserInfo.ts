@@ -1,11 +1,11 @@
 "use client"
 import { useEffect, useState } from "react"
 import { useAuthCheck } from "./useAuthCheck"
-import { RawProfile } from "../_schema/profileSchema"
+import { RawUser } from "../../(user)/_schema/userSchema"
 
 export const useLoginUserInfo = () => {
   const { checkAuth } = useAuthCheck()
-  const [userInfo, setUserInfo] = useState<RawProfile>()
+  const [userInfo, setUserInfo] = useState<RawUser>()
   const [userId, setUserId] = useState<string>("")
   const [isLoading, setIsLoading] = useState(true)
   
@@ -28,7 +28,7 @@ export const useLoginUserInfo = () => {
     userInfo,
     userId,
     isLoading,
-    isAdmin: userInfo?.type == 3,
-    isGuest: userInfo?.type == 1
+    isAdmin: userInfo?.type_id == 3,
+    isGuest: userInfo?.type_id == 1
   }
 }

@@ -11,9 +11,13 @@ import { AuthorizedPageLayout } from "../../(auth)/_components/AuthorizedPageLay
 import { Button, LoadingOverlay } from "@mantine/core"
 import Link from "next/link"
 import { getStatusName } from "../_schema/taskStatusSchema"
+import { useLoginUserInfo } from "@/app/(auth)/_hooks/useLoginUserInfo"
 
 export default function Page() {
   const router = useRouter();
+
+  /** ログインユーザ情報を取得する */
+  const {isGuest, isAdmin} = useLoginUserInfo()
 
   /** タスクフィルター状態 */
   const [taskFilter, setTaskFilter] = useState<TaskFilterSchema>({})
@@ -49,7 +53,7 @@ export default function Page() {
   }
   
   // タスク一覧を取得する
-  const { fetchedTasks, isLoading: taskLoading, refresh, totalRecords } = useTasks({
+  const { fetchedTasks, isLoading: taskLoading, totalRecords } = useTasks({
     filter: searchFilter,
     sortColumn: sortStatus.columnAccessor as TaskColumns,
     sortOrder: sortStatus.direction,
@@ -64,8 +68,10 @@ export default function Page() {
   const handleSerch = () => {
     // タスクフィルターをクエリストリングに変換する
     const paramsObj = Object.fromEntries(
-      Object.entries(taskFilter).map(([k, v]) => [k, String(v)])
-    )
+      Object.entries(taskFilter)
+        .filter(([_, v]) => v !== undefined && v !== null && v !== '')
+        .map(([k, v]) => [k, String(v)])
+    );
     const params = new URLSearchParams(paramsObj)
 
     // フィルターをURLに反映する
@@ -77,7 +83,7 @@ export default function Page() {
 
   return (
     <AuthorizedPageLayout title="タスク一覧" actionButtons={(
-      <Button onClick={() => {
+      <Button hidden={isGuest} onClick={() => {
         router.push("/tasks/new")
       }}>新規作成</Button>
     )}>
@@ -95,11 +101,16 @@ export default function Page() {
         columns={[
           { accessor: 'id', title: 'ID', sortable: true, resizable: true,
             render: (task) => {
-            const url = `/tasks/${task.id}`
+            const url = `${TASKS_URL}/${task.id}`
             return (<Link href={url} className="text-blue-400">{task.id}</Link>)}
           },
           { accessor: 'name', title: 'タスク名', sortable: true, resizable: true },
-          { accessor: 'detail', title: '詳細', sortable: true, resizable: true },
+          { accessor: 'detail', title: '詳細', sortable: true, resizable: true,
+            render: (record) => {
+              const text = record.detail || '';
+              return text.length > 30 ? text.slice(0, 30) + '...' : text;
+            }
+           },
           { accessor: 'status_id', title: 'ステータス', sortable: true, resizable: true,
             render: (task) => getStatusName(fetchedStatuses, task.status_id)
           }

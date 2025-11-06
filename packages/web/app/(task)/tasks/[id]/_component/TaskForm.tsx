@@ -9,12 +9,16 @@ import { useTaskDelete } from "../_hooks/useTaskDelete";
 import { useTaskSave } from "../_hooks/useTaskSave";
 import { useTaskUpdate } from "../_hooks/useTaskUpdate";
 import { TASKS_URL } from "@/app/(core)/appConstants";
+import { useLoginUserInfo } from "@/app/(auth)/_hooks/useLoginUserInfo";
 
 /** タスクフォーム */
 export const TaskForm = ( params: {
   /** タスクID */
   id?: string;
 }) => {
+
+  /** ログインユーザ情報を取得する */
+  const {isGuest, isAdmin} = useLoginUserInfo()
 
   /** ハンドラ */
   const { handleDelete } = useTaskDelete()
@@ -38,11 +42,6 @@ export const TaskForm = ( params: {
     // ステータスをセットする
     setTaskValue("status_id", val)
   }
-
-  // TODO: デバッグ（削除予定）
-  console.log("Form errors:", errors)
-  console.log("Form values:", JSON.stringify(watchTask()))
-  console.log("Is form valid:", Object.keys(errors).length === 0)
  
   return (
     <>
@@ -53,61 +52,64 @@ export const TaskForm = ( params: {
         <Box pos="relative" className="max-w-120">
           {/* ロード中のオーバーレイ */}
           <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2, }} />
-          {/* タスク入力フォーム */}
-          <form onSubmit={handleSubmit((form) => isNew ? handleSave(form) : handleUpdate(form))}>
-            {/* 入力欄のコンテナ */}
-            <div className="flex flex-col gap-2">
-              {/* ID入力欄 */}
-              <div>
-                <Input.Wrapper label="ID" error={errors.id?.message}>
-                  <div className="h-6">
-                    {/* idがない場合、「-」を表示する */}
-                    <p>{ id != 0 ? id : "-" }</p>
-                    <input type="hidden" value={id} {...taskRegister("id", { valueAsNumber: true })} />
-                  </div>
-                </Input.Wrapper>
-              </div>
-              {/* タスク名入力欄 */}
-              <div>
-                <Input.Wrapper label="タスク名" required error={errors.name?.message}>
-                  <Input className="max-w-120" {...taskRegister("name")} />
-                </Input.Wrapper>
-              </div>
-              {/* タスク詳細入力欄 */}
-              <div>
-                  <Input.Wrapper label="タスク詳細" error={errors.detail?.message}>
-                    <Textarea className="max-w-120" placeholder="200文字以内で入力してください。"
-                    autosize minRows={4} maxRows={4} {...taskRegister("detail")} />
+          {/* ゲストの場合は参照のみにする */}
+          <fieldset disabled={isGuest} style={{ border: 0, padding: 0 }}>
+            {/* タスク入力フォーム */}
+            <form onSubmit={handleSubmit((form) => isNew ? handleSave(form) : handleUpdate(form))}>
+              {/* 入力欄のコンテナ */}
+              <div className="flex flex-col gap-2">
+                {/* ID入力欄 */}
+                <div>
+                  <Input.Wrapper label="ID" error={errors.id?.message}>
+                    <div className="h-6">
+                      {/* idがない場合、「-」を表示する */}
+                      <p>{ id != 0 ? id : "-" }</p>
+                      <input type="hidden" value={id} {...taskRegister("id", { valueAsNumber: true })} />
+                    </div>
                   </Input.Wrapper>
+                </div>
+                {/* タスク名入力欄 */}
+                <div>
+                  <Input.Wrapper label="タスク名" required error={errors.name?.message}>
+                    <Input className="max-w-120" {...taskRegister("name")} />
+                  </Input.Wrapper>
+                </div>
+                {/* タスク詳細入力欄 */}
+                <div>
+                    <Input.Wrapper label="タスク詳細" error={errors.detail?.message}>
+                      <Textarea className="max-w-120" placeholder="200文字以内で入力してください。"
+                      autosize minRows={4} maxRows={4} {...taskRegister("detail")} />
+                    </Input.Wrapper>
+                </div>
+                {/* ステータス入力欄 */}
+                <div>
+                  <Input.Wrapper label="ステータス" required error={errors.status_id?.message}>
+                    <TaskStatusCombobox taskStatuses={fetchedStatuses} currentValue={watchTask("status_id")} onChanged={handleChangedStatus} />
+                  </Input.Wrapper>
+                </div>
+                {/* メール送信入力欄 */}
+                <div>
+                  <Input.Wrapper label="メール送信">
+                    <Checkbox
+                      {...taskRegister("send_mail")}
+                    />
+                  </Input.Wrapper>
+                </div>
               </div>
-              {/* ステータス入力欄 */}
-              <div>
-                <Input.Wrapper label="ステータス" required error={errors.status_id?.message}>
-                  <TaskStatusCombobox taskStatuses={fetchedStatuses} currentValue={watchTask("status_id")} onChanged={handleChangedStatus} />
-                </Input.Wrapper>
-              </div>
-              {/* メール送信入力欄 */}
-              <div>
-                <Input.Wrapper label="メール送信">
-                  <Checkbox
-                    {...taskRegister("send_mail")}
-                  />
-                </Input.Wrapper>
-              </div>
-            </div>
-            <Space h="md" />
-            {/* サブミットボタン */}
-            <Group>
-              {isNew ? 
-                <Button type="submit" loading={loading} >保存</Button>
-              :
-              <>
-                <Button loading={loading} color="red.7" onClick={() => handleDelete(fetchedTask)} >削除</Button>
-                <Button type="submit" loading={loading} >更新</Button>
-              </>
-              }
-            </Group>
-          </form>
+              <Space h="md" />
+              {/* サブミットボタン */}
+              <Group>
+                {isNew ? 
+                  <Button hidden={isGuest} type="submit" loading={loading} >保存</Button>
+                :
+                <>
+                  <Button hidden={isGuest} loading={loading} color="red.7" onClick={() => handleDelete(fetchedTask)} >削除</Button>
+                  <Button hidden={isGuest} type="submit" loading={loading} disabled={!isValueChanged} >更新</Button>
+                </>
+                }
+              </Group>
+            </form>
+          </fieldset>
         </Box>
         </div>
       </AuthorizedPageLayout>

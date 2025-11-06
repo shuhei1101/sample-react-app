@@ -7,10 +7,14 @@ import { useLogin } from "./_hooks/useLogin";
 import { useSignUp } from "./_hooks/useSignUp";
 import { useLoginForm } from "./_hooks/useLoginForm";
 
-// 1~10のランダムの数を計算する
-// const randomNumber: number = Math.floor(Math.random() * 10) + 1;
+const guest = {
+  email: process.env.NEXT_PUBLIC_GUEST_EMAIL ?? "",
+  pass: process.env.NEXT_PUBLIC_GUEST_PASS ?? ""
+}
 
 export default function Page() {
+  /** セッションストレージを空にする */
+  sessionStorage.clear();
 
   /** ハンドラ */
   const { handleLogin } = useLogin()
@@ -20,12 +24,15 @@ export default function Page() {
   const [isLogin, setIsLogin] = useState<boolean>(true)
 
   // ログインフォームを取得する
-  const { register, errors, setValue: setTaskValue, watch: watchTask, isValueChanged, handleSubmit} = useLoginForm();
+  const { register, errors, setValue, watch: watchTask, isValueChanged, handleSubmit} = useLoginForm();
 
-  // TODO: デバッグ（削除予定）
-  console.log("Form errors:", errors)
-  console.log("Form values:", JSON.stringify(watchTask()))
-  console.log("Is form valid:", Object.keys(errors).length === 0)
+  // ゲストでログイン押下時のハンドル
+  const handleGuestLogin = () => {
+    handleLogin({
+      email: guest.email,
+      password: guest.pass
+    })
+  }
 
   return (
     <FeedbackMessageWrapper>
@@ -64,7 +71,8 @@ export default function Page() {
               <div className="m-3" />
               {/* サブミットボタン */}
               <div className="flex justify-end gap-5 w-full">
-                <Button type="submit" variant="default">決定</Button>
+                <Button onClick={handleGuestLogin} variant="default">ゲストでログイン</Button>
+                <Button type="submit" variant="default">続行</Button>
               </div>
             </form>
           </Center>

@@ -12,14 +12,18 @@ export const useProjectUpdate = () => {
   const router = useRouter()
   const handleUpdate = async (project: ProjectFormSchema) => {
     try {
-      // プロジェクトを更新する
-      await projectApi.update(project)
-      
-      // 次画面で表示するメッセージを登録する
-      appStorage.feedbackMessage.set('プロジェクトを更新しました')
+      // 更新確認を行う
+      if (window.confirm('更新します。よろしいですか？')) {
+          
+        // プロジェクトを更新する
+        await projectApi.update(project)
+        
+        // 次画面で表示するメッセージを登録する
+        appStorage.feedbackMessage.set('プロジェクトを更新しました')
 
-      // プロジェクト一覧画面に戻る
-      router.push(`${PROJECTS_URL}`)
+        // プロジェクト一覧画面に戻る
+        router.push(`${PROJECTS_URL}`)
+      }
     } catch (error) {
       handleAppError(error, router)
     }

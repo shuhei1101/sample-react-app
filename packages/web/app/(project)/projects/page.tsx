@@ -1,17 +1,22 @@
 "use client"
 import { useRouter, useSearchParams } from "next/navigation"
-import { createProjectFilterFromQueryObj, RawProject, ProjectColumns, ProjectFilterSchema } from "../_schema/projectSchema"
+import { createProjectFilterFromQueryObj, ProjectColumns, ProjectFilterSchema } from "../_schema/projectSchema"
 import { DataTable, DataTableSortStatus } from "mantine-datatable"
 import { useEffect, useState } from "react"
 import { ProjectFilter } from "./_components/ProjectFilter"
-import { TASKS_URL } from "../../(core)/appConstants"
+import { PROJECT_NEW_URL, PROJECTS_URL } from "../../(core)/appConstants"
 import { AuthorizedPageLayout } from "../../(auth)/_components/AuthorizedPageLayout"
 import { Button } from "@mantine/core"
 import Link from "next/link"
 import { useProjects } from "./_hooks/useProjects"
+import { FetchProjectResult } from "../_query/projectQuery"
+import { useLoginUserInfo } from "@/app/(auth)/_hooks/useLoginUserInfo"
 
 export default function Page() {
   const router = useRouter();
+
+  /** ログインユーザ情報を取得する */
+  const {isGuest, isAdmin} = useLoginUserInfo()
 
   /** プロジェクトフィルター状態 */
   const [projectFilter, setProjectFilter] = useState<ProjectFilterSchema>({})
@@ -29,7 +34,7 @@ export default function Page() {
   }, [searchParams])
   
   /** ソート状態 */
-  const [sortStatus, setSortStatus] = useState<DataTableSortStatus<RawProject>>({
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus<FetchProjectResult>>({
     columnAccessor: 'id' as ProjectColumns,
     direction: 'asc',
   })
@@ -43,7 +48,7 @@ export default function Page() {
     setPage(page)
   }
   
-  // プロジェクト一覧を取得する
+  // プロジェクトとプロジェクトメンバーを取得する
   const { fetchedProjects, isLoading: projectLoading, refresh, totalRecords } = useProjects({
     filter: searchFilter,
     sortColumn: sortStatus.columnAccessor as ProjectColumns,
@@ -56,12 +61,14 @@ export default function Page() {
   const handleSerch = () => {
     // プロジェクトフィルターをクエリストリングに変換する
     const paramsObj = Object.fromEntries(
-      Object.entries(projectFilter).map(([k, v]) => [k, String(v)])
-    )
+      Object.entries(projectFilter)
+        .filter(([_, v]) => v !== undefined && v !== null && v !== '')
+        .map(([k, v]) => [k, String(v)])
+    );
     const params = new URLSearchParams(paramsObj)
 
     // フィルターをURLに反映する
-    router.push(`${TASKS_URL}?${params.toString()}`)
+    router.push(`${PROJECTS_URL}?${params.toString()}`)
 
     // 検索フィルターを更新し、一覧を更新する
     setSearchFilter(projectFilter)
@@ -69,8 +76,8 @@ export default function Page() {
 
   return (
     <AuthorizedPageLayout title="プロジェクト一覧" actionButtons={(
-      <Button onClick={() => {
-        router.push("/projects/new")
+      <Button hidden={isGuest} onClick={() => {
+        router.push(PROJECT_NEW_URL)
       }}>新規作成</Button>
     )}>
       {/* 検索条件欄 */}
@@ -78,7 +85,7 @@ export default function Page() {
        />
       <div className="m-5" />
       {/* プロジェクト一覧テーブル */}
-      <DataTable<RawProject> 
+      <DataTable<FetchProjectResult> 
         withTableBorder 
         highlightOnHover
         noRecordsText=""
@@ -87,14 +94,12 @@ export default function Page() {
         columns={[
           { accessor: 'id', title: 'ID', sortable: true, resizable: true,
             render: (project) => {
-            const url = `/projects/${project.id}`
+            const url = `${PROJECTS_URL}/${project.id}`
             return (<Link href={url} className="text-blue-400">{project.id}</Link>)}
           },
           { accessor: 'name', title: 'プロジェクト名', sortable: true, resizable: true },
           { accessor: 'detail', title: '詳細', sortable: true, resizable: true },
-          { accessor: 'is_public', title: '公開／非公開', sortable: true, resizable: true,
-            render: (project) => project.is_public ? "公開" : "非公開"
-          }
+          { accessor: 'is_public', title: '公開／非公開', sortable: true, resizable: true}
         ]}
         sortStatus={sortStatus}
         onSortStatusChange={setSortStatus}

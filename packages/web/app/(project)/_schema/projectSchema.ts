@@ -1,5 +1,6 @@
-import { RawProfile, rawProfile } from "@/app/(auth)/_schema/profileSchema";
+import { RawUser, rawUser } from "@/app/(user)/_schema/userSchema";
 import { z } from "zod";
+import { FetchProjectResult } from "../_query/projectQuery";
 
 /** DBのプロジェクトスキーマ */
 export const rawProject = z.object({
@@ -13,8 +14,12 @@ export const rawProject = z.object({
 export type RawProject = z.infer<typeof rawProject>
 
 // 更新用
-export type ProjectInsert = Omit<RawProject, "id" | "created_at"| "updated_at">
-export type ProjectUpdate = Omit<RawProject, "created_at">
+export type ProjectInsert = Omit<RawProject, "id" | "created_at"| "updated_at"> & {
+  user_ids: string[];
+};
+export type ProjectUpdate = Omit<RawProject, "created_at"> & {
+  user_ids: string[];
+};
 export type ProjectDelete = Pick<RawProject, "id" | "updated_at">
 
 // プロジェクトのカラム名
@@ -31,7 +36,7 @@ export const projectFormSchema = z.object({
   /** 公開フラグ */
   is_public: z.boolean(),
   /** プロジェクトメンバーのID */
-  members: z.array(rawProfile).min(1, {
+  members: z.array(rawUser).min(1, {
     message: "プロジェクトには最低1人のメンバーが必要です。"
   }),
   /** 作成日時 */
@@ -43,22 +48,9 @@ export const projectFormSchema = z.object({
 /** プロジェクトフォームスキーマの型 */
 export type ProjectFormSchema = z.infer<typeof projectFormSchema>;
 
-/** エンティティからプロジェクトフォームスキーマを生成する */
-export const createProjectSchemaFromEntity = (entity: RawProject, members: RawProfile[]): ProjectFormSchema => {
-  return {
-    id: entity.id,
-    name: entity.name,
-    detail: entity.detail,
-    members: members,
-    is_public: entity.is_public,
-    created_at: entity.created_at,
-    updated_at: entity.updated_at
-  }
-}
-
 /** プロジェクトフィルター */
-export type ProjectFilterSchema = Partial<Pick<RawProject, 
-  "id" | "name" | "is_public"
+export type ProjectFilterSchema = Partial<Pick<FetchProjectResult, 
+  "id" | "name"
 >>
 
 /** クエリオブジェクトからプロジェクトフィルターに変換する */
@@ -72,8 +64,6 @@ export const createProjectFilterFromQueryObj = (queryObj: any) => {
   result.id = queryObj.id ?? undefined
   // プロジェクト名をセットする
   result.name = queryObj.name ?? undefined
-  // 公開フラグをセットする
-  result.is_public = queryObj.is_public ?? undefined
   
   return result
 }

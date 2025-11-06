@@ -13,7 +13,7 @@ export const useTaskDelete = () => {
   const handleDelete = async (task: TaskFormSchema) => {
     try {
       // 削除確認を行う
-      if (window.confirm('本当に削除しますか？')) {
+      if (window.confirm('削除します。よろしいですか？')) {
 
         // タスクを削除する
         await taskApi.delete(task)

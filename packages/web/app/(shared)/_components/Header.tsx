@@ -1,9 +1,9 @@
 "use client";
 import { useLoginUserInfo } from '@/app/(auth)/_hooks/useLoginUserInfo';
-import { HOME_URL, LOGIN_URL, PROJECT_NEW_URL, PROJECTS_URL, TASK_NEW_URL, TASKS_URL } from '@/app/(core)/appConstants';
+import { HOME_URL, LOGIN_URL, PROJECT_NEW_URL, PROJECTS_URL, TASK_NEW_URL, TASKS_URL, USERS_URL } from '@/app/(core)/appConstants';
 import { Burger, Drawer, NavLink, ActionIcon, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconHome2, IconUsers, IconFiles, IconFolders, IconGauge, IconChecklist, IconBriefcase, IconClipboardPlus, IconFolderPlus, IconFilePlus, IconFile, IconLogout } from '@tabler/icons-react';
+import { IconHome2, IconUsers, IconFiles, IconFolders, IconGauge, IconChecklist, IconBriefcase, IconClipboardPlus, IconFolderPlus, IconFilePlus, IconFile, IconLogout, IconListCheck, IconUser, IconUserPlus } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 
 export default function Header() {
@@ -44,47 +44,49 @@ export default function Header() {
           label="ホーム"
           leftSection={<IconHome2 size={16} stroke={1.5} />}
         />
-      <NavLink
-        href="#required-for-focus"
-        label="タスク"
-        leftSection={<IconFile size={16} stroke={1.5} />}
-        childrenOffset={28}
-      >
         <NavLink
-          href={`${TASKS_URL}`}
-          label="タスク一覧"
-          leftSection={<IconFiles size={16} stroke={1.5} />}
-        />
-        {/* ゲスト以外 */}
-        {!isGuest ? <NavLink
-          href={`${TASK_NEW_URL}`}
-          label="タスク作成"
-          leftSection={<IconFilePlus size={16} stroke={1.5} />}
-        /> : <></>}
-      </NavLink>
-      <NavLink
-        href="#required-for-focus"
-        label="プロジェクト"
-        leftSection={<IconBriefcase size={16} stroke={1.5} />}
-      >
+          href="#required-for-focus"
+          label="タスク"
+          leftSection={<IconListCheck size={16} stroke={1.5} />}
+          childrenOffset={28}
+        >
+          <NavLink
+            href={`${TASKS_URL}`}
+            label="タスク一覧"
+            leftSection={<IconFiles size={16} stroke={1.5} />}
+          />
+          {/* ゲスト以外 */}
+          {!isGuest && <NavLink
+            href={`${TASK_NEW_URL}`}
+            label="タスク作成"
+            leftSection={<IconFilePlus size={16} stroke={1.5} />}
+          />}
+        </NavLink>
         <NavLink
-          href={`${PROJECTS_URL}`}
-          label="プロジェクト一覧"
-          leftSection={<IconFolders size={16} stroke={1.5} />}
-        />
-        {/* ゲスト以外 */}
-        {!isGuest ? <NavLink
-          href={`${PROJECT_NEW_URL}`}
-          label="プロジェクト作成"
-          leftSection={<IconFolderPlus size={16} stroke={1.5} />}
-        /> : <></>}
-      </NavLink>
-      {/* 管理者のみ */}
-      {isAdmin ? <NavLink
-        href="#"
-        label="ユーザ管理"
-        leftSection={<IconUsers size={16} stroke={1.5} />}
-      /> : <></>}
+          href="#required-for-focus"
+          label="プロジェクト"
+          leftSection={<IconBriefcase size={16} stroke={1.5} />}
+        >
+          <NavLink
+            href={`${PROJECTS_URL}`}
+            label="プロジェクト一覧"
+            leftSection={<IconFolders size={16} stroke={1.5} />}
+          />
+          {/* ゲスト以外 */}
+          {!isGuest && <NavLink
+            href={`${PROJECT_NEW_URL}`}
+            label="プロジェクト作成"
+            leftSection={<IconFolderPlus size={16} stroke={1.5} />}
+          />}
+        </NavLink>
+        {/* 管理者のみ */}
+        {isAdmin &&
+          <NavLink
+            href={`${USERS_URL}`}
+            label="ユーザ管理"
+            leftSection={<IconUsers size={16} stroke={1.5} />}
+          />
+        }
       </Drawer>
     </>
   )

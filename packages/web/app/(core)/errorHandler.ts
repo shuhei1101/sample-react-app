@@ -61,6 +61,5 @@ export const handleAppError = (error: any, router: AppRouterInstance) => {
 // データ取得例外時のハンドル
 export const handleQueryError = (error: any, targetName: string) => {
   const fetchedDataName = targetName ? targetName : "データ"
-  console.log(`${fetchedDataName}取得時にエラーが発生しました。: ${error}`)
   throw new DatabaseError(`${fetchedDataName}取得時にエラーが発生しました。`)
 }

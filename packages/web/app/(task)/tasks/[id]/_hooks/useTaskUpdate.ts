@@ -12,14 +12,18 @@ export const useTaskUpdate = () => {
   const router = useRouter()
   const handleUpdate = async (task: TaskFormSchema) => {
     try {
-      // タスクを更新する
-      await taskApi.update(task)
-      
-      // 次画面で表示するメッセージを登録する
-      appStorage.feedbackMessage.set('タスクを更新しました')
+      // 更新確認を行う
+      if (window.confirm('更新します。よろしいですか？')) {
+          
+        // タスクを更新する
+        await taskApi.update(task)
+        
+        // 次画面で表示するメッセージを登録する
+        appStorage.feedbackMessage.set('タスクを更新しました')
 
-      // タスク一覧画面に戻る
-      router.push(`${TASKS_URL}`)
+        // タスク一覧画面に戻る
+        router.push(`${TASKS_URL}`)
+      }
     } catch (error) {
       handleAppError(error, router)
     }

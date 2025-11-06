@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { appStorage } from "@/app/(shared)/_sessionStorage/appStorage"
 import { HOME_URL } from "@/app/(core)/appConstants"
 import { LoginFormSchema } from "../_schema/loginSchema"
-import { clientSupabase } from "@/app/(core)/supabase/clientSupabase"
+import { clientSupabase } from "@/app/(core)/_supabase/clientSupabase"
 import toast from "react-hot-toast"
 
 /** ログイン時のハンドル */

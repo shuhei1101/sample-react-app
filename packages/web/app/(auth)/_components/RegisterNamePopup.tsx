@@ -1,6 +1,6 @@
 import { Button, Group, Input, Modal, Space, Title } from "@mantine/core"
-import { useProfileForm } from "../_hooks/useRegisterProfileForm";
-import { useProfileSave } from "../_hooks/useTaskSave";
+import { useUserForm } from "../_hooks/useRegisterUserForm";
+import { useUserSave } from "../../(user)/users/_hooks/useUserSave";
 import { useEffect } from "react";
 
 /** 名前入力ポップアップ */
@@ -11,14 +11,14 @@ export const RegisterNamePopup = ({opened ,close, userId}: {
 }) => {
 
   /** ハンドル */
-  const { handleSave } = useProfileSave({close})
+  const { handleSave } = useUserSave({close})
 
-  // プロフィールフォームを取得する
-  const { register: profileRegister, errors, setValue: setProfileValue, watch: watchProfile, handleSubmit } = useProfileForm();
+  // ユーザフォームを取得する
+  const { register: userRegister, errors, setValue: setUserValue, watch: watchUser, handleSubmit } = useUserForm();
 
   // 引数のuserIdをセットする
   useEffect(() => {
-    setProfileValue("user_id", userId)
+    setUserValue("user_id", userId)
   }, [userId])
 
   return (
@@ -33,7 +33,7 @@ export const RegisterNamePopup = ({opened ,close, userId}: {
           {/* タスク名入力欄 */}
           <div>
             <Input.Wrapper label="タスク名" required error={errors.name?.message}>
-              <Input className="max-w-120" {...profileRegister("name")} placeholder="例: 田中　太郎" />
+              <Input className="max-w-120" {...userRegister("name")} placeholder="例: 田中　太郎" />
             </Input.Wrapper>
           </div>
         </div>

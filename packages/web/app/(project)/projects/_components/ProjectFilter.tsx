@@ -44,14 +44,6 @@ export const ProjectFilter = ({filter, setFilter, handleSearch}: {
                 }))
               }} className="max-w-120" />
             </Input.Wrapper>
-            <Input.Wrapper label="公開／非公開">
-              <Checkbox onChange={(event) => {
-                setFilter((prev) => ({
-                  ...prev,
-                  is_public: event.currentTarget.checked
-                }))
-              }} className="max-w-120" />
-            </Input.Wrapper>
           </div>
           <div className="mb-5" />
           <div className="flex justify-end">

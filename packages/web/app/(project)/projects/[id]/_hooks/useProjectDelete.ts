@@ -13,7 +13,7 @@ export const useProjectDelete = () => {
   const handleDelete = async (project: ProjectFormSchema) => {
     try {
       // 削除確認を行う
-      if (window.confirm('本当に削除しますか？')) {
+      if (window.confirm('削除します。よろしいですか？')) {
         // プロジェクトを削除する
         await projectApi.delete(project)
 

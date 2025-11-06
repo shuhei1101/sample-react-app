@@ -17,7 +17,6 @@
   - [ユーザ認可処理](#ユーザ認可処理)
 - [フォルダ構成](#フォルダ構成)
 
-
 ## 概要
 本アプリは、ポートフォリオ用に作成したサンプルアプリです。
 企業向けのプロジェクト管理アプリを想定し作成しました。
@@ -138,6 +137,7 @@ Direction BT
     INT ID PK
     VARCHAR 名前
   }
+  
 
 ```
 - 補足: 作成日時、更新日時は省略しています。
@@ -156,6 +156,9 @@ sequenceDiagram
   Client ->> Server: 更新データ
   Server ->> DB: CUDクエリ実行
 ```
+- データ更新時は`楽観的排他チェック`（存在確認、更新／削除確認）を行う。
+- 複数テーブル更新時のトランザクション制御はクライアントではできないため、`ストアドで対応`。
+
 ### 読込
 ```mermaid
 sequenceDiagram
@@ -164,9 +167,10 @@ sequenceDiagram
   participant DB
 
 
-  Client ->> DB: Readクエリ実行
-  DB ->> Client: データ
+  Client -->> DB: Readクエリ実行
+  DB -->> Client: データ
 ```
+- クライアントからは読み取りクエリのみ許可する。
 
 ## 認証・認可
 ### ユーザ登録処理
@@ -188,7 +192,7 @@ sequenceDiagram
   │   ├── .../
   ├── (project)/              # 機能ごとにフォルダを分離する
   │   ├── _api-client/             # 外部通信（Supabase REST API 呼び出し）
-  │   ├── _data-access/            # Supabase クエリをラップしたデータ取得層
+  │   ├── _data-access/            # Supabase クエリをラップしたデータ取得層（一貫した排他制御の実施）
   │   ├── _hooks/                  # フック
   │   ├── _query/                  # データ取得クエリ
   │   ├── _schema/                 # スキーマ（Zodの型を定義する）

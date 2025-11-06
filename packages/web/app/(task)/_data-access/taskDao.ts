@@ -1,7 +1,7 @@
 import { DatabaseError } from "@/app/(core)/appError";
 import { taskExclusiveControl } from "./taskExclusiveControl";
 import { RawTask, TaskDelete, TaskInsert, TaskUpdate } from "../_schema/taskSchema";
-import { serverSupabase } from "@/app/(core)/supabase/serverSupabase";
+import { serverSupabase } from "@/app/(core)/_supabase/serverSupabase";
 
 export const taskDao = {
   /** タスクを挿入する */
@@ -14,7 +14,6 @@ export const taskDao = {
     
     // エラーをチェックする
     if (error) {
-      console.log(`タスクの作成に失敗しました。: ${error}`)
       throw new DatabaseError('タスクの作成に失敗しました。')
     };
     // 作成されたIDを返却する
@@ -39,8 +38,7 @@ export const taskDao = {
 
     // エラーをチェックする
     if (error) {
-      console.log(`タスクの更新に失敗しました。: ${error}`)
-      throw new DatabaseError(`更新時にエラーが発生しました。: ${error}`)
+      throw new DatabaseError(`更新時にエラーが発生しました。`)
     };
   },
 
@@ -61,7 +59,6 @@ export const taskDao = {
 
     // エラーをチェックする
     if (error) {
-      console.log(`タスクの削除に失敗しました。: ${error}`)
       throw new DatabaseError(`タスクの削除に失敗しました。`);
     };
   }

@@ -56,7 +56,7 @@ export async function DELETE(
   try {
     // bodyからプロジェクトを取得する
     const body: RegisterProjectRequest = await request.json()
-    const project = projectFormSchema.parse(body);
+    const project = body as ProjectFormSchema
 
     // プロジェクトを削除する
     await deleteProject(project)

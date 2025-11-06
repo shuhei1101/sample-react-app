@@ -1,6 +1,6 @@
 "use client"
 
-import { clientSupabase } from "@/app/(core)/supabase/clientSupabase"
+import { clientSupabase } from "@/app/(core)/_supabase/clientSupabase"
 import toast from "react-hot-toast"
 import { LoginFormSchema } from "../_schema/loginSchema"
 
@@ -17,7 +17,7 @@ export const useSignUp = () => {
     // エラーをチェックする
     if (error) {
       console.error(error)
-      toast.error(`エラー: ${error}`)
+      toast.error(`エラー: ${JSON.stringify(error)}`)
       return
     }
     

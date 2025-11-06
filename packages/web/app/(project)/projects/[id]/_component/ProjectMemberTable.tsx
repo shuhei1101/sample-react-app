@@ -1,12 +1,12 @@
-import { RawProfile } from "@/app/(auth)/_schema/profileSchema"
+import { RawUser } from "@/app/(user)/_schema/userSchema"
 import { Button, Table } from "@mantine/core"
 
 const BTN_SIZE = 60
 
 /** プロジェクトメンバーテーブル */
-export const ProjectMemberTable = ({members, onUpdateClick, onAddClick}: {
-  members: RawProfile[],
-  onUpdateClick: () => void,
+export const ProjectMemberTable = ({members, onDeleteClick, onAddClick}: {
+  members: RawUser[],
+  onDeleteClick: (userId: string) => void,
   onAddClick: () => void,
 }) => {
 
@@ -14,8 +14,8 @@ export const ProjectMemberTable = ({members, onUpdateClick, onAddClick}: {
     <Table.Tr key={member.user_id}>
       <Table.Td>{member.name}</Table.Td>
       <Table.Td w={BTN_SIZE}>
-        <Button size="xs" variant="light" onClick={onUpdateClick}>
-          <p>更新</p>
+        <Button w={BTN_SIZE} color="red" size="xs" variant="light" onClick={() => onDeleteClick(member.user_id)}>
+          <p>削除</p>
         </Button>
       </Table.Td>
     </Table.Tr>

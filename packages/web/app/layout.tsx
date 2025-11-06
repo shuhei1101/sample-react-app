@@ -4,6 +4,7 @@ import "./globals.css";
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import 'mantine-datatable/styles.layer.css';
+import React from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,20 +27,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <title>サンプルアプリ</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
-        <ColorSchemeScript/>
-      </head>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <MantineProvider>
-            
-            <div>
-              {children}
-            </div>
-          </MantineProvider>
-        </body>
-    </html>
+    <React.StrictMode>
+      <html lang="en">
+        <head>
+          <title>サンプルアプリ</title>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
+          <ColorSchemeScript/>
+        </head>
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <MantineProvider>
+              <div>
+                {children}
+              </div>
+            </MantineProvider>
+          </body>
+      </html>
+    </React.StrictMode>
   );
 }
