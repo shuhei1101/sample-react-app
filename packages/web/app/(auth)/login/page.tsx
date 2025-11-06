@@ -42,7 +42,7 @@ export default function Page() {
         {/* 入力欄の背景 */}
         <Box className="w-full" maw={700} mih={350}
           style={{
-            background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+            background: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)',
             borderRadius: '8px'
           }}
         >

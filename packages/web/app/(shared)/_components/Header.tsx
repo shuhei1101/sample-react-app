@@ -25,11 +25,11 @@ export default function Header() {
         }} variant="subtle" size="xl" color="rgba(255, 255, 255, 1)">
           <IconHome2 style={{ width: '70%', height: '70%' }} stroke={1.5} />
         </ActionIcon>
-        <Title textWrap='nowrap' order={4} c="rgba(255, 255, 255, 1)">サンプルアプリ</Title>
+        <Title textWrap='nowrap' order={5} c="rgba(255, 255, 255, 1)">サンプルアプリ</Title>
         {/* スペース */}
         <div className='w-full' />
         {/* ユーザ情報を表示する */}
-        <p className='text-nowrap text-white'>{userInfo?.name}</p>
+        <p className='text-nowrap text-white text-sm'>{userInfo?.name}</p>
         {/* サインアウトボタン */}
         <ActionIcon onClick={()=>{
           // 次画面で表示するメッセージを登録する
