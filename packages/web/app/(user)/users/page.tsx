@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { createUserFilterFromQueryObj, RawUser, UserColumns, UserFilterSchema } from "../_schema/userSchema"
 import { useUserTypes } from "../_hooks/useUserTypes"
 import { DataTable, DataTableSortStatus } from "mantine-datatable"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useUsers } from "./_hooks/useUsers"
 import {  USERS_URL } from "../../(core)/appConstants"
 import { AuthorizedPageLayout } from "../../(auth)/_components/AuthorizedPageLayout"
@@ -11,7 +11,7 @@ import Link from "next/link"
 import { getTypeName } from "../_schema/userTypeSchema"
 import { UserFilterWithType } from "./_components/UserFilterWithType"
 
-export default function Page() {
+function UsersContent() {
   const router = useRouter();
 
   /** ユーザフィルター状態 */
@@ -108,5 +108,13 @@ export default function Page() {
         onPageChange={handleChangedPage}
       />
     </AuthorizedPageLayout>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>読み込み中...</div>}>
+      <UsersContent />
+    </Suspense>
   )
 }

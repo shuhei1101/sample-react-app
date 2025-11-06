@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { createTaskFilterFromQueryObj, RawTask, TaskColumns, TaskFilterSchema } from "../_schema/taskSchema"
 import { useTaskStatuses } from "../_hooks/useTaskStatuses"
 import { DataTable, DataTableSortStatus } from "mantine-datatable"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useTasks } from "./_hooks/useTasks"
 import { TaskFilter } from "./_components/TaskFilter"
 import { TASKS_URL } from "../../(core)/appConstants"
@@ -13,7 +13,7 @@ import Link from "next/link"
 import { getStatusName } from "../_schema/taskStatusSchema"
 import { useLoginUserInfo } from "@/app/(auth)/_hooks/useLoginUserInfo"
 
-export default function Page() {
+function TasksContent() {
   const router = useRouter();
 
   /** ログインユーザ情報を取得する */
@@ -123,5 +123,13 @@ export default function Page() {
         onPageChange={handleChangedPage}
       />
     </AuthorizedPageLayout>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>読み込み中...</div>}>
+      <TasksContent />
+    </Suspense>
   )
 }

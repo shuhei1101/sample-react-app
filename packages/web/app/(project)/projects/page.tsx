@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { createProjectFilterFromQueryObj, ProjectColumns, ProjectFilterSchema } from "../_schema/projectSchema"
 import { DataTable, DataTableSortStatus } from "mantine-datatable"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { ProjectFilter } from "./_components/ProjectFilter"
 import { PROJECT_NEW_URL, PROJECTS_URL } from "../../(core)/appConstants"
 import { AuthorizedPageLayout } from "../../(auth)/_components/AuthorizedPageLayout"
@@ -12,7 +12,7 @@ import { useProjects } from "./_hooks/useProjects"
 import { FetchProjectResult } from "../_query/projectQuery"
 import { useLoginUserInfo } from "@/app/(auth)/_hooks/useLoginUserInfo"
 
-export default function Page() {
+function ProjectsContent() {
   const router = useRouter();
 
   /** ログインユーザ情報を取得する */
@@ -109,5 +109,13 @@ export default function Page() {
         onPageChange={handleChangedPage}
       />
     </AuthorizedPageLayout>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>読み込み中...</div>}>
+      <ProjectsContent />
+    </Suspense>
   )
 }
