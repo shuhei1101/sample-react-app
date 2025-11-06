@@ -87,7 +87,7 @@ export const UserForm = ( params: {
               {/* サブミットボタン */}
               <Group>
                 <>
-                  <Button disabled={true} loading={loading} color="red.7" onClick={() => handleDelete(fetchedUser)} >削除</Button>
+                  <Button loading={loading} color="red.7" onClick={() => handleDelete(fetchedUser)} >削除</Button>
                   <Button type="submit" loading={loading} disabled={!isValueChanged} >更新</Button>
                 </>
               </Group>

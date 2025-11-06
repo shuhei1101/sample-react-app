@@ -40,7 +40,6 @@ export const UserTypeCombobox = ({ onChanged, currentValue, userTypes }: {
     <Combobox
       store={combobox}
       onOptionSubmit={onOptionalSubmit}
-      disabled={true}
     >
       {/* コンボボックス入力中の設定 */}
       <Combobox.Target>
