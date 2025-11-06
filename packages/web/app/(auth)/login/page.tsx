@@ -1,7 +1,7 @@
 "use client"
 import { BackgroundImage, Button, Center, Fieldset, PasswordInput, Tabs, TextInput, Title } from "@mantine/core";
 import { FeedbackMessageWrapper } from "../../(shared)/_components/FeedbackMessageWrapper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IconDualScreen, IconDualScreenFilled } from "@tabler/icons-react";
 import { useLogin } from "./_hooks/useLogin";
 import { useSignUp } from "./_hooks/useSignUp";
@@ -14,7 +14,9 @@ const guest = {
 
 export default function Page() {
   /** セッションストレージを空にする */
-  sessionStorage.clear();
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
 
   /** ハンドラ */
   const { handleLogin } = useLogin()
@@ -24,7 +26,7 @@ export default function Page() {
   const [isLogin, setIsLogin] = useState<boolean>(true)
 
   // ログインフォームを取得する
-  const { register, errors, setValue, watch: watchTask, isValueChanged, handleSubmit} = useLoginForm();
+  const { register, handleSubmit} = useLoginForm();
 
   // ゲストでログイン押下時のハンドル
   const handleGuestLogin = () => {
