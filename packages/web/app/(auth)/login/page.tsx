@@ -1,5 +1,5 @@
 "use client"
-import { BackgroundImage, Button, Center, Fieldset, PasswordInput, Tabs, TextInput, Title } from "@mantine/core";
+import { Box, Button, Center, Fieldset, PasswordInput, Tabs, TextInput, Title } from "@mantine/core";
 import { FeedbackMessageWrapper } from "../../(shared)/_components/FeedbackMessageWrapper";
 import { useState, useEffect } from "react";
 import { IconDualScreen, IconDualScreenFilled } from "@tabler/icons-react";
@@ -38,20 +38,22 @@ export default function Page() {
 
   return (
     <FeedbackMessageWrapper>
-      <div className="h-screen flex flex-col items-center justify-center p-4">
+      <div className="h-screen flex flex-col items-center justify-center p-2">
         {/* 入力欄の背景 */}
-        <BackgroundImage maw={700} mih={350}
-          src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png`}
-          radius="md"
+        <Box className="w-full" maw={700} mih={350}
+          style={{
+            background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+            borderRadius: '8px'
+          }}
         >
           <Center p="md" className="flex flex-col gap-5">
             {/* タイトル */}
             <Title order={1} c={"white"}>サンプルアプリ</Title>
             <form onSubmit={handleSubmit((form) => isLogin ? handleLogin(form) : handleSignUp(form))}>
               {/* タブ */}
-              <Tabs defaultValue="ログイン" variant="pills">
+              <Tabs defaultValue="ログイン" variant="outline">
                 <Tabs.List>
-                  <Tabs.Tab value="ログイン" leftSection={<IconDualScreen size={14} color="white" />} 
+                  <Tabs.Tab value="ログイン" leftSection={<IconDualScreen size={14} color="white"  />} 
                   onClick={() => setIsLogin(true)}>
                     <p className="text-white font-bold">ログイン</p>
                   </Tabs.Tab>
@@ -62,7 +64,7 @@ export default function Page() {
                 </Tabs.List>
               </Tabs>
               {/* 入力フォーム */}
-              <Fieldset legend="" w={350}>
+              <Fieldset legend="" w={300}>
                 <TextInput label="メールアドレス" type="email" {...register("email")} />
                 <PasswordInput withAsterisk
                   label="パスワード"
@@ -78,7 +80,7 @@ export default function Page() {
               </div>
             </form>
           </Center>
-        </BackgroundImage>
+        </Box>
       </div>
     </FeedbackMessageWrapper>
   )
