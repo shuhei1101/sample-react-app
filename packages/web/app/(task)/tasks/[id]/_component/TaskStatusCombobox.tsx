@@ -46,7 +46,7 @@ export const TaskStatusCombobox = ({ onChanged, currentValue, taskStatuses }: {
         <InputBase
           component="button" type="button"
           pointer rightSection={<Combobox.Chevron />} rightSectionPointerEvents="none"
-          onClick={() => combobox.toggleDropdown()} className="w-40"
+          onClick={() => combobox.toggleDropdown()} className="min-w-30 max-w-50"
         >
           {getStatusName(taskStatuses, currentValue) || <Input.Placeholder>-</Input.Placeholder>}
         </InputBase>

@@ -8,7 +8,7 @@ export const appStorage = {
     out: () => {
       const message = sessionStorage.getItem('feedbackMessage');
       if (message) {
-        toast(message);
+        toast(message, {duration: 1500});
         sessionStorage.removeItem('feedbackMessage');
       }
     },

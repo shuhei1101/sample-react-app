@@ -38,7 +38,7 @@ export default function Page() {
 
   return (
     <FeedbackMessageWrapper>
-      <div className="h-screen flex flex-col items-center justify-center">
+      <div className="h-screen flex flex-col items-center justify-center p-4">
         {/* 入力欄の背景 */}
         <BackgroundImage maw={700} mih={350}
           src={`https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png`}

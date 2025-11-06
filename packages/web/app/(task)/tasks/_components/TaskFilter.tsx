@@ -37,25 +37,27 @@ export const TaskFilter = ({filter, setFilter, statuses, handleSearch}: {
         <Accordion.Item value="search" key="search">
           <Accordion.Control icon={"🔍"}>検索条件</Accordion.Control>
           <Accordion.Panel>
-          <div className="flex gap-6  items-center p-2">
-            <Input.Wrapper label="ID">
-              <Input onChange={(event) => {
-                const value = event.currentTarget.value.trim();
-                setFilter((prev) => ({
-                  ...prev,
-                  id: value ? Number(value) : undefined
-                }))
-              }} className="max-w-120" type="number" />
-            </Input.Wrapper>
-            <Input.Wrapper label="タスク名">
-              <Input onChange={(event) => {
-                const value = event.currentTarget.value.trim();
-                setFilter((prev) => ({
-                  ...prev,
-                  name: value
-                }))
-              }} className="max-w-120" />
-            </Input.Wrapper>
+          <div className="flex gap-6  items-center p-2 flex-wrap">
+            <div className="flex gap-6 flex-nowrap">
+              <Input.Wrapper label="ID">
+                <Input onChange={(event) => {
+                  const value = event.currentTarget.value.trim();
+                  setFilter((prev) => ({
+                    ...prev,
+                    id: value ? Number(value) : undefined
+                  }))
+                }} className="max-w-20" type="number" />
+              </Input.Wrapper>
+              <Input.Wrapper label="タスク名">
+                <Input onChange={(event) => {
+                  const value = event.currentTarget.value.trim();
+                  setFilter((prev) => ({
+                    ...prev,
+                    name: value
+                  }))
+                }} className="max-w-120" />
+              </Input.Wrapper>
+            </div>
             <Input.Wrapper label="ステータス" >
               <TaskStatusCombobox onChanged={onStutasChanged} taskStatuses={statuses} currentValue={filter?.status_id} />
             </Input.Wrapper>

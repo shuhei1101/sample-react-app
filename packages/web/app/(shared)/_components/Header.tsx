@@ -5,6 +5,7 @@ import { Burger, Drawer, NavLink, ActionIcon, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconHome2, IconUsers, IconFiles, IconFolders, IconGauge, IconChecklist, IconBriefcase, IconClipboardPlus, IconFolderPlus, IconFilePlus, IconFile, IconLogout, IconListCheck, IconUser, IconUserPlus } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
+import { appStorage } from '../_sessionStorage/appStorage';
 
 export default function Header() {
   const router = useRouter()
@@ -31,6 +32,10 @@ export default function Header() {
         <p className='text-nowrap text-white'>{userInfo?.name}</p>
         {/* サインアウトボタン */}
         <ActionIcon onClick={()=>{
+          // 次画面で表示するメッセージを登録する
+          appStorage.feedbackMessage.set('サインアウトしました')
+
+          // ログイン画面に遷移する
           router.push(`${LOGIN_URL}`)
         }} variant="subtle" size="xl" color="rgba(255, 255, 255, 1)">
           <IconLogout style={{ width: '70%', height: '70%' }} stroke={1.5} />
