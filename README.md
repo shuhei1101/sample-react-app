@@ -200,12 +200,12 @@ sequenceDiagram
   ├── (task)/
   │   ├── .../
   ├── (project)/              # 機能ごとにフォルダを分離しています。
-  │   ├── _api-client/             # 外部通信（Supabase REST API 呼び出し）
-  │   ├── _data-access/            # Supabase クエリをラップしたデータ取得層（一貫した排他制御の実施）
+  │   ├── _api-client/             # バックエンドAPI呼び出し
+  │   ├── _data-access/            # Supabase クエリをラップしたデータ更新層
   │   ├── _hooks/                  # フック
-  │   ├── _query/                  # データ取得クエリ
+  │   ├── _query/                  # データ取得クエリ。CQRSのQuery側の処理を担当。
   │   ├── _schema/                 # スキーマ（Zodの型を定義する）
-  │   ├── _service/                # ビジネスロジック層。CQRSのCommand側の処理を担当。
+  │   ├── _service/                # バックエンド側のビジネスロジック層。
   │   ├── projects/                # 一覧ページのルーティング用フォルダ
   │   │   └── page.tsx                   # プロジェクト一覧ページ
   │   │   ├── api/                       # REST APIの定義
@@ -218,6 +218,8 @@ sequenceDiagram
   ├── (core)/                 # コア機能を格納する
   ├── (shared)/               # 共通で使用するコンポーネントや関数を格納する
 ```
+
+## URLについて
 - `https://xxx/projects`: プロジェクト一覧
 - `https://xxx/projects/1`: IDが1のプロジェクトの詳細画面
 - `https://xxx/projects/new`: 新規プロジェクト作成画面
