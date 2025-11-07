@@ -4,7 +4,8 @@
 Next.jsとSupabaseを使用し、ログイン認証からCRUDまでWebアプリ全体を通した機能を実装しました。\
 以下リンクより実際に操作してお試しください。\
 \
-[【サンプルアプリを起動する】](https://sample-react-app-z6qm.vercel.app/login)
+[【サンプルアプリを起動する】](https://sample-react-app-z6qm.vercel.app/login)\
+（ゲストログインボタンを押下することでログインなしで閲覧が可能です。）
 
 
 ## 目次
