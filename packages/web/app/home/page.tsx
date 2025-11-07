@@ -16,8 +16,7 @@ export default function Home() {
       {/* お知らせ */}
       <Alert variant="light" color="blue" title="お知らせ" icon={<IconInfoCircle />}>
         <p>サンプルアプリのホーム画面です。<br />
-        画面左上のメニューから他の画面へ移動できます。<br />
-        ログアウトする際は右上のアイコンボタンを押してください。
+        <a target="_blank" className="text-blue-500" href="https://github.com/shuhei1101/sample-react-app">こちら</a>からGitHubリポジトリを確認できます。
         </p>
       </Alert>
 

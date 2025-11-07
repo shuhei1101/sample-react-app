@@ -75,7 +75,7 @@ export default function Page() {
               <div className="m-3" />
               {/* サブミットボタン */}
               <div className="flex justify-end gap-5 w-full">
-                <Button onClick={handleGuestLogin} variant="default">ゲストログイン</Button>
+                <Button onClick={handleGuestLogin} variant="default" bg={"yellow"}>ゲストログイン</Button>
                 <Button type="submit" variant="default">続行</Button>
               </div>
             </form>

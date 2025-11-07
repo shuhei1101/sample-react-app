@@ -16,6 +16,7 @@ export const projectDao = {
     
     // エラーをチェックする
     if (error) {
+      console.log(error)
       throw new DatabaseError('プロジェクトの作成に失敗しました。')
     };
     // 作成されたIDを返却する
@@ -44,6 +45,7 @@ export const projectDao = {
 
     // エラーをチェックする
     if (error) {
+      console.log(error)
       throw new DatabaseError(`更新時にエラーが発生しました。`)
     };
   },
@@ -65,6 +67,7 @@ export const projectDao = {
 
     // エラーをチェックする
     if (error) {
+      console.log(error)
       throw new DatabaseError(`プロジェクトの削除に失敗しました。`);
     };
   }

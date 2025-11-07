@@ -22,7 +22,7 @@ export const fetchUsers = async ({
 
     // フィルター
     if (filter.name !== undefined) query = query.ilike("name", `%${filter.name}%`)
-    if (filter.type_id !== undefined) query = query.eq("type_id", filter.type_id)
+    query = query.eq('type_id', 2)
 
     // ソート
     query = query.order(sortColumn, {ascending: sortOrder === "asc"})

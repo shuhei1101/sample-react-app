@@ -14,6 +14,7 @@ export const userDao = {
     
     // エラーをチェックする
     if (error) {
+      console.log(error)
       throw new DatabaseError('ユーザの作成に失敗しました。')
     }
     // 作成されたIDを返却する
@@ -38,6 +39,7 @@ export const userDao = {
 
     // エラーをチェックする
     if (error) {
+      console.log(error)
       throw new DatabaseError(`更新時にエラーが発生しました。`)
     }
   },
@@ -59,6 +61,7 @@ export const userDao = {
 
     // エラーをチェックする
     if (error) {
+      console.log(error)
       throw new DatabaseError(`ユーザの削除に失敗しました。`)
     }
   }
