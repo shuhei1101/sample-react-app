@@ -16,7 +16,8 @@ export default function Home() {
       {/* お知らせ */}
       <Alert variant="light" color="blue" title="お知らせ" icon={<IconInfoCircle />}>
         <p>サンプルアプリのホーム画面です。<br />
-        <a target="_blank" className="text-blue-500" href="https://github.com/shuhei1101/sample-react-app">こちら</a>からGitHubリポジトリを確認できます。
+        <a target="_blank" className="text-blue-500" href="https://github.com/shuhei1101/sample-react-app">こちら</a>からGitHubリポジトリを確認できます。<br />
+        各機能については左上のメニューボタンよりご確認ください。
         </p>
       </Alert>
 
