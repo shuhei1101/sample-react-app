@@ -97,15 +97,15 @@ graph LR
 
 
 ## 開発環境（使用技術）
-- フレームワーク: `Next.js`
-  - ルーティングシステム: `App Router`
-  - UI: `Mantine`（主要コンポーネント）＋ `Tailwind CSS`（レイアウト補助）
-  - REST API: `Route Handlers`
-  - その他:
+- フロントエンド: `Next.js`(`App Router`)
+  - UI: `Mantine`（主要コンポーネント）＋ `Tailwind CSS`
+  - その他ライブラリ:
     - `Zod`: バリデーションチェック用ライブラリ
     - `React Hook Form`: 入力フォームの検証を最適化したライブラリ。Zodと組み合わせて使用。
     - `SWR`: データ取得処理を最適化するためのライブラリ。
-- DB: `Supabase`（PostgreSQLベースのクラウドDB）
+- バックエンド:
+  - APIサーバ: `Next.js`(`Route Handlers`)
+  - DB: `Supabase`（PostgreSQLベースのクラウドDB）
 - デプロイ: `Vercel`
 - エディタ: `VSCode`
 
