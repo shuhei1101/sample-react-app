@@ -1,7 +1,7 @@
 "use client"
 
 import { ReactNode, useEffect } from "react";
-import { appStorage } from "../_sessionStorage/appStorage";
+import { appStorage } from "../../(core)/_sessionStorage/appStorage";
 import { Toaster } from "react-hot-toast";
 
 // トースターメッセージを表示するためのプロバイダ

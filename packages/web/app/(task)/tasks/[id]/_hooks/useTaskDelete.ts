@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { handleAppError } from "@/app/(core)/errorHandler"
 import { taskApi } from "../../../_api-client/taskApi"
 import { TaskFormSchema } from "../../../_schema/taskSchema"
-import { appStorage } from "@/app/(shared)/_sessionStorage/appStorage"
+import { appStorage } from "@/app/(core)/_sessionStorage/appStorage"
 import { TASKS_URL } from "@/app/(core)/appConstants"
 
 /** 削除ボタン押下時のハンドル */

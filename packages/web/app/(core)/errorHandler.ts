@@ -1,7 +1,7 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import { AppError, DatabaseError, UNKNOWN_ERROR } from "./appError"
 import { HOME_URL } from "./appConstants"
-import { appStorage } from "../(shared)/_sessionStorage/appStorage"
+import { appStorage } from "./_sessionStorage/appStorage"
 import { NextResponse } from "next/server"
 
 type ErrorResponse = {

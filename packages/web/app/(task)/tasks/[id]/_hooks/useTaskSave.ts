@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { taskApi } from "../../../_api-client/taskApi"
 import { TaskFormSchema } from "../../../_schema/taskSchema"
-import { appStorage } from "@/app/(shared)/_sessionStorage/appStorage"
+import { appStorage } from "@/app/(core)/_sessionStorage/appStorage"
 import { handleAppError } from "@/app/(core)/errorHandler"
 import { TASKS_URL } from "@/app/(core)/appConstants"
 

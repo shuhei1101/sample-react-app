@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { projectApi } from "../../../_api-client/projectApi"
 import { ProjectFormSchema } from "../../../_schema/projectSchema"
-import { appStorage } from "@/app/(shared)/_sessionStorage/appStorage"
+import { appStorage } from "@/app/(core)/_sessionStorage/appStorage"
 import { handleAppError } from "@/app/(core)/errorHandler"
 import { PROJECTS_URL } from "@/app/(core)/appConstants"
 

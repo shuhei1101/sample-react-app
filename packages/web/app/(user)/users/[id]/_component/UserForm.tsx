@@ -7,7 +7,7 @@ import { useUserDelete } from "../_hooks/useUserDelete";
 import { useUserUpdate } from "../_hooks/useUserUpdate";
 import { useUserForm } from "../_hooks/useUserForm";
 import { UserTypeCombobox } from "./UserTypeCombobox";
-import { appStorage } from "@/app/(shared)/_sessionStorage/appStorage"
+import { appStorage } from "@/app/(core)/_sessionStorage/appStorage"
 import { useRouter } from "next/navigation"
 import { useUserTypes } from "@/app/(user)/_hooks/useUserTypes";
 

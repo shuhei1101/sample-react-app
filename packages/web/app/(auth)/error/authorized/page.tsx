@@ -3,7 +3,7 @@
 import { useEffect } from "react"
 import { Button } from "@mantine/core"
 import { useRouter } from "next/navigation"
-import { appStorage } from "@/app/(shared)/_sessionStorage/appStorage"
+import { appStorage } from "@/app/(core)/_sessionStorage/appStorage"
 
 export default function Page({
   error,

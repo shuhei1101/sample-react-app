@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, Center, Fieldset, PasswordInput, Tabs, TextInput, Title } from "@mantine/core";
+import { Box, Button, Center, Fieldset, Input, PasswordInput, Tabs, TextInput, Title } from "@mantine/core";
 import { FeedbackMessageWrapper } from "../../(shared)/_components/FeedbackMessageWrapper";
 import { useState, useEffect } from "react";
 import { IconDualScreen, IconDualScreenFilled } from "@tabler/icons-react";
@@ -26,7 +26,7 @@ export default function Page() {
   const [isLogin, setIsLogin] = useState<boolean>(true)
 
   // ログインフォームを取得する
-  const { register, handleSubmit} = useLoginForm();
+  const { register, handleSubmit, errors } = useLoginForm();
 
   // ゲストでログイン押下時のハンドル
   const handleGuestLogin = () => {
@@ -65,12 +65,12 @@ export default function Page() {
               </Tabs>
               {/* 入力フォーム */}
               <Fieldset legend="" w={300}>
-                <TextInput label="メールアドレス" type="email" {...register("email")} />
-                <PasswordInput withAsterisk
-                  label="パスワード"
-                  placeholder="6文字以上"
-                  {...register("password")}
-                  />
+                <Input.Wrapper label="メールアドレス" required error={errors.email?.message}>
+                  <TextInput type="email" {...register("email")} />
+                </Input.Wrapper>
+                <Input.Wrapper label="パスワード" required error={errors.password?.message}>
+                  <PasswordInput placeholder="6文字以上" {...register("password")} />
+                </Input.Wrapper>
               </Fieldset>
               <div className="m-3" />
               {/* サブミットボタン */}

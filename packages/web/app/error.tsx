@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { appStorage } from "./(shared)/_sessionStorage/appStorage"
+import { appStorage } from "./(core)/_sessionStorage/appStorage"
 import { Button } from "@mantine/core"
 import { useRouter } from "next/navigation"
 import { HOME_URL } from "./(core)/appConstants"
