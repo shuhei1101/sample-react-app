@@ -1,0 +1,5 @@
+setup.py
+sample_llama_index.egg-info/PKG-INFO
+sample_llama_index.egg-info/SOURCES.txt
+sample_llama_index.egg-info/dependency_links.txt
+sample_llama_index.egg-info/top_level.txt
