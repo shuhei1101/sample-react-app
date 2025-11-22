@@ -95,9 +95,3 @@ jobs:
             --set-env-vars $ENV_VARS \
             --tasks=1
         fi
-
-    - name: 定期実行ジョブを実行する
-      run: |
-        curl -X POST https://${{ env.SERVICE_NAME }}-${{  env.GCP_PROJECT_ID }}.${{ env.GCP_REGION }}.run.app/run-daily-task \
-          -H "Content-Type: application/json" \
-          -d '{"task": "daily"}'
