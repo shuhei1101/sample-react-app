@@ -6,4 +6,3 @@ RUN rm -rf build dist *.egg-info notiontaskr/*.egg-info
 RUN pip install --no-cache-dir -r requirements.txt
 
 CMD ["python", "notiontaskr/regular_job.py"]
-
