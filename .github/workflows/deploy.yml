@@ -47,14 +47,15 @@ jobs:
       run: echo "SERVICE_IMAGE=$SERVICE_IMAGE"
       env:
         SERVICE_IMAGE: ${{ env.SERVICE_IMAGE }}
-        
+
     - name: サービスをビルドする
       run: |
-        docker build -t ${{ env.SERVICE_IMAGE }} -f packages/ai/Dockerfile.service packages/ai
-
-    - name: 定期実行ジョブをビルドする
-      run: |
-        docker build -t ${{ env.REGULAR_JOB_IMAGE }} -f packages/ai/Dockerfile.regular.job packages/ai
+        SERVICE_IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ vars.SERVICE_NAME }}"
+        REGULAR_JOB_IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ vars.REGULAR_JOB_NAME }}"
+        echo "SERVICE_IMAGE=$SERVICE_IMAGE"
+        echo "REGULAR_JOB_IMAGE=$REGULAR_JOB_IMAGE"
+        docker build -t "$SERVICE_IMAGE" -f packages/ai/Dockerfile.service packages/ai
+        docker build -t "$REGULAR_JOB_IMAGE" -f packages/ai/Dockerfile.regular.job packages/ai
 
     - name: サービスのDockerイメージをプッシュする
       run: docker push ${{ env.SERVICE_IMAGE }}
