@@ -42,11 +42,11 @@ jobs:
 
     - name: サービスをビルドする
       run: |
-        docker build -t ${{ env.SERVICE_IMAGE }} -f Dockerfile.service .
+        docker build -t ${{ env.SERVICE_IMAGE }} -f packages/ai/Dockerfile.service packages/ai
 
     - name: 定期実行ジョブをビルドする
       run: |
-        docker build -t ${{ env.REGULAR_JOB_IMAGE }} -f Dockerfile.regular.job .
+        docker build -t ${{ env.REGULAR_JOB_IMAGE }} -f packages/ai/Dockerfile.regular.job packages/ai
 
     - name: サービスのDockerイメージをプッシュする
       run: docker push ${{ env.SERVICE_IMAGE }}
