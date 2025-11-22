@@ -14,7 +14,7 @@ class QuestionTaskResponse(BaseModel):
     """question_taskのレスポンス"""
     answer: str
 
-@router.post("/", response_model=QuestionTaskResponse)
+@router.post("/question", response_model=QuestionTaskResponse)
 async def question_task(request: QuestionTaskRequest):
     """タスクについて質問する"""
     response = question_task_service.excute(prompt=request.prompt)

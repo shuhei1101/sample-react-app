@@ -10,4 +10,4 @@ app = FastAPI()
 
 # タスク質問ルートを設定する
 from llm_demo.task.api.server import router as question_task_router
-app.include_router(question_task_router, prefix=f"{BASE_TASK_ROUTE}/question", tags=["Task"])
+app.include_router(question_task_router, prefix=f"{BASE_TASK_ROUTE}", tags=["Task"])
