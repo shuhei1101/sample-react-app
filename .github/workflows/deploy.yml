@@ -14,7 +14,7 @@ env:
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}  # サービスアカウントキー
   SERVICE_IMAGE: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ vars.SERVICE_NAME }}  # サービスのDockerイメージ名
   REGULAR_JOB_IMAGE: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ vars.REGULAR_JOB_NAME }}  # 定期実行ジョブのDockerイメージ名
-  ENV_VARS: OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}, SUPABASE_URL=${{ secrets.SUPABASE_URL }}, SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}, BUCKET_NAME=${{ vars.BUCKET_NAME }}, ENVIRONMENT=${{ vars.ENVIRONMENT }}
+  ENV_VARS: OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},SUPABASE_URL=${{ secrets.SUPABASE_URL }},SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }},BUCKET_NAME=${{ vars.BUCKET_NAME }},ENVIRONMENT=${{ vars.ENVIRONMENT }}
  
 jobs:
   deploy:
@@ -34,19 +34,15 @@ jobs:
 
     - name: サービスの古いイメージを削除する
       continue-on-error: true
-      run: gcloud artifacts docker images delete ${{ env.SERVICE_IMAGE }} --quiet
+      run: |
+        SERVICE_IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ vars.SERVICE_NAME }}"
+        gcloud artifacts docker images delete "$SERVICE_IMAGE" --quiet
 
     - name: 定期実行ジョブの古いイメージを削除する
       continue-on-error: true
-      run: gcloud artifacts docker images delete ${{ env.REGULAR_JOB_IMAGE }} --quiet
-
-    - name: カレントディレクトリ確認
-      run: pwd && ls -R packages/ai
-      
-    - name: SERVICE_IMAGE を表示
-      run: echo "SERVICE_IMAGE=$SERVICE_IMAGE"
-      env:
-        SERVICE_IMAGE: ${{ env.SERVICE_IMAGE }}
+      run: |
+        REGULAR_JOB_IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ vars.REGULAR_JOB_NAME }}"
+        gcloud artifacts docker images delete "$REGULAR_JOB_IMAGE" --quiet
 
     - name: サービスをビルドする
       run: |
