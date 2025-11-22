@@ -42,7 +42,12 @@ jobs:
 
     - name: カレントディレクトリ確認
       run: pwd && ls -R packages/ai
-
+      
+    - name: SERVICE_IMAGE を表示
+      run: echo "SERVICE_IMAGE=$SERVICE_IMAGE"
+      env:
+        SERVICE_IMAGE: ${{ env.SERVICE_IMAGE }}
+        
     - name: サービスをビルドする
       run: |
         docker build -t ${{ env.SERVICE_IMAGE }} -f packages/ai/Dockerfile.service packages/ai
