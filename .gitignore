@@ -43,6 +43,7 @@ next-env.d.ts
 *.cache/
 *tmp/
 *temp/
+*.egg-info
 
 # ログ系
 *.log
