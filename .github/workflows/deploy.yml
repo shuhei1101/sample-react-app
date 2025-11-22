@@ -14,12 +14,7 @@ env:
   GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}  # サービスアカウントキー
   SERVICE_IMAGE: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ vars.SERVICE_NAME }}-service  # サービスのDockerイメージ名
   REGULAR_JOB_IMAGE: ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPO_NAME }}/${{ vars.REGULAR_JOB_NAME }}-regular_job  # 定期実行ジョブのDockerイメージ名
-  ENV_VARS: |
-    OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-    SUPABASE_URL=${{ secrets.SUPABASE_URL }}
-    SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
-    BUCKET_NAME=${{ vars.BUCKET_NAME }}
-    ENVIRONMENT=${{ vars.ENVIRONMENT }}
+  ENV_VARS: OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}, SUPABASE_URL=${{ secrets.SUPABASE_URL }}, SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}, BUCKET_NAME=${{ vars.BUCKET_NAME }}, ENVIRONMENT=${{ vars.ENVIRONMENT }}
  
 jobs:
   deploy:
