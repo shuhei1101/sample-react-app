@@ -40,6 +40,9 @@ jobs:
       continue-on-error: true
       run: gcloud artifacts docker images delete ${{ env.REGULAR_JOB_IMAGE }} --quiet
 
+    - name: カレントディレクトリ確認
+      run: pwd && ls -R packages/ai
+
     - name: サービスをビルドする
       run: |
         docker build -t ${{ env.SERVICE_IMAGE }} -f packages/ai/Dockerfile.service packages/ai
