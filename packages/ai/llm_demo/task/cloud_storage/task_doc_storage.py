@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from llm_demo.core.document_storage import DocumentStorage
-from llm_demo.core.gcs import MockStorageHandler
+from llm_demo.core.gcs import GCSHandler, MockStorageHandler
 
 # 環境変数を読み込む
 load_dotenv()
@@ -20,5 +20,5 @@ task_doc_storage = DocumentStorage(
     index_zip_name='task_index.zip',
     local_zip_path=local_zip_path,
     local_index_dir=local_index_dir,
-    storage_handler=MockStorageHandler()
+    storage_handler=GCSHandler(bucket_name=os.environ["BUCKET_NAME"]) if os.environ["ENVIRONMENT"]=="prod" else MockStorageHandler()
 )

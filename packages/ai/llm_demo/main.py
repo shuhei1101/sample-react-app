@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 
 from llm_demo.core.app_constants import BASE_TASK_ROUTE
-from llm_demo.task.service.refresh_task_docs import refresh_task_docs
 
 # 環境変数を読み込む
 load_dotenv()
