@@ -9,7 +9,7 @@
 御覧いただきありがとうございます。\
 本アプリは、ポートフォリオ用に作成したWebアプリです。\
 Next.jsとSupabaseを使用し、`ログイン認証`から`CRUD`までWebアプリ全体を通した機能を実装しました。\
-また、Pythonのllama-indexとGCPで簡易LLMを構築し、`チャットボット機能`も導入しています。\
+また、Pythonのllama-indexとGCPで簡易LLMサーバを構築し、`チャットボット機能`も導入しています。\
 以下リンクより実際に操作してお試しください。\
 \
 [【サンプルアプリを起動する】](https://sample-react-app-z6qm.vercel.app/login)\
