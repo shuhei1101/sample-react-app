@@ -6,6 +6,7 @@ import { ActionIcon, Button, Container, Input, Loader, Paper, Text, Textarea } f
 import { useRouter } from "next/navigation"
 import { IconSend } from "@tabler/icons-react"
 import { useSendMessage } from "./_hooks/useTaskQuestion"
+import ReactMarkdown from "react-markdown"
 
 
 function QuestionContent() {
@@ -63,7 +64,7 @@ function QuestionContent() {
             return (
               <div key={index} className={message.type === "ai" ? "flex justify-start" : "flex justify-end"}>
                 <Paper shadow="xs" radius="xl" p="sm" className="max-w-2/3 min-h-0" bg={message.type === "ai" ? undefined : "#ADFF2F"} >
-                  <Text style={{ whiteSpace: 'pre-wrap' }}>{message.text}</Text>
+                  <ReactMarkdown>{message.text}</ReactMarkdown>
                 </Paper>
               </div>
             )
