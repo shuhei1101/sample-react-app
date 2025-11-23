@@ -1,4 +1,7 @@
 
+// LLMAPIサーバ
+const LLM_API_URL = process.env.NEXT_PUBLIC_LLM_API_URL!
+
 // ホーム
 export const HOME_URL = `/home`
 
@@ -12,7 +15,9 @@ export const LOGIN_URL = `/login`
 // タスク
 export const TASKS_URL = `/tasks`
 export const TASK_NEW_URL = `${TASKS_URL}/new`
+export const TASK_QUESTION_URL = `${TASKS_URL}/question`
 export const TASK_API_URL = `${TASKS_URL}/api`
+export const TASK_QUESTION_API_URL = `${LLM_API_URL}/task/question`
 
 // プロジェクト
 export const PROJECTS_URL = `/projects`

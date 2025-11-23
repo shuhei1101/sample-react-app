@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from llm_demo.core.app_constants import BASE_TASK_ROUTE
 
@@ -7,6 +8,18 @@ from llm_demo.core.app_constants import BASE_TASK_ROUTE
 load_dotenv()
 # FastAPIを初期化する
 app = FastAPI()
+
+# CORSを許可する
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",  # Next.js local
+        "https://sample-react-app-z6qm.vercel.app"  # 本番Webアプリ
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # タスク質問ルートを設定する
 from llm_demo.task.api.server import router as question_task_router

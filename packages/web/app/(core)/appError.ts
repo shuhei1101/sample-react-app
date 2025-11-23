@@ -14,6 +14,14 @@ export class AppError extends Error {
   }
 }
 
+/** フロントエンドの例外 */
+export const UI_ERROR_CODE = 'UI_ERROR'
+export class UIError extends AppError {
+  constructor(message = 'UI例外が発生しました。') {
+    super(UI_ERROR_CODE, 400, message);
+  }
+}
+
 /** データベース例外 */
 export const DATABASE_ERROR_CODE = 'DB_ERROR'
 export class DatabaseError extends AppError {

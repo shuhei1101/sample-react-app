@@ -1,6 +1,6 @@
 "use client";
 import { useLoginUserInfo } from '@/app/(auth)/_hooks/useLoginUserInfo';
-import { HOME_URL, LOGIN_URL, PROJECT_NEW_URL, PROJECTS_URL, TASK_NEW_URL, TASKS_URL, USERS_URL } from '@/app/(core)/appConstants';
+import { HOME_URL, LOGIN_URL, PROJECT_NEW_URL, PROJECTS_URL, TASK_NEW_URL, TASK_QUESTION_API_URL, TASK_QUESTION_URL, TASKS_URL, USERS_URL } from '@/app/(core)/appConstants';
 import { Burger, Drawer, NavLink, ActionIcon, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconHome2, IconUsers, IconFiles, IconFolders, IconGauge, IconChecklist, IconBriefcase, IconClipboardPlus, IconFolderPlus, IconFilePlus, IconFile, IconLogout, IconListCheck, IconUser, IconUserPlus } from '@tabler/icons-react';
@@ -58,6 +58,11 @@ export default function Header() {
           <NavLink
             href={`${TASKS_URL}`}
             label="タスク一覧"
+            leftSection={<IconFiles size={16} stroke={1.5} />}
+          />
+          <NavLink
+            href={`${TASK_QUESTION_URL}`}
+            label="タスク質問（AI）"
             leftSection={<IconFiles size={16} stroke={1.5} />}
           />
           {/* ゲスト以外 */}

@@ -1,7 +1,7 @@
 import { handleAPIError } from "@/app/(core)/errorHandler";
 import { TaskFormSchema } from "../_schema/taskSchema";
 import { RegisterTaskResponse } from "../tasks/api/route";
-import { TASK_API_URL } from "@/app/(core)/appConstants";
+import { TASK_API_URL, TASK_QUESTION_API_URL } from "@/app/(core)/appConstants";
 
 export const taskApi = {
   /** タスクを作成する */
@@ -16,8 +16,9 @@ export const taskApi = {
     if (!res.ok) {
       await handleAPIError(res)
     }
-    const data: RegisterTaskResponse = await res.json()
 
+    // 戻り値を返却する
+    const data: RegisterTaskResponse = await res.json()
     return data.id
   },
   
@@ -47,5 +48,27 @@ export const taskApi = {
     if (!res.ok) {
       await handleAPIError(res)
     }
+  },
+  
+  /** タスクについて質問する */
+  question: async (request: {
+    prompt: string
+  }) => {
+    const res = await fetch(`${TASK_QUESTION_API_URL}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request)
+    })
+
+    console.log(JSON.stringify(request))
+
+    // ステータスが不正な場合、アプリ例外を発生させる
+    if (!res.ok) {
+      await handleAPIError(res)
+    }
+
+    // 戻り値を返却する
+    const data = await res.json()
+    return data as { answer: string }
   },
 }
