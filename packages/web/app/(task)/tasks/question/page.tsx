@@ -56,14 +56,14 @@ function QuestionContent() {
 
   return (
     <AuthorizedPageLayout title="タスク質問（AI）" actionButtons={(<></>)}>
-      <div className="flex flex-col"  style={{ height: 'calc(100vh - 150px)' }}>
+      <div className="flex flex-col"  style={{ height: 'calc(100vh - 140px)' }}>
         {/* チャット表示欄 */}
         <div className="flex flex-col gap-5 flex-1 overflow-y-auto">
           {messages.map((message, index) => {
             return (
               <div key={index} className={message.type === "ai" ? "flex justify-start" : "flex justify-end"}>
                 <Paper shadow="xs" radius="xl" p="sm" className="max-w-2/3 min-h-0" bg={message.type === "ai" ? undefined : "#ADFF2F"} >
-                  <Text>{message.text}</Text>
+                  <Text style={{ whiteSpace: 'pre-wrap' }}>{message.text}</Text>
                 </Paper>
               </div>
             )
@@ -76,12 +76,13 @@ function QuestionContent() {
               </Paper>
             </div>
           }
+          <div className="m-0.5" />
         </div>
-        <div className="m-5" />
+        <div className="m-2" />
         {/* チャット入力欄 */}
         <div className="flex items-center gap-2">
           {/* 入力フィールド */}
-          <Textarea className="w-full" placeholder="例: 現在登録中のタスクを教えて下さい。" autosize minRows={1} maxRows={4} 
+          <Textarea className="w-full" placeholder="例: 現在登録中のタスクについて教えて下さい。（Ctrl + Enterで送信）" autosize minRows={1} maxRows={4} 
             value={prompt}
             onChange={(event) => setPrompt(event.currentTarget.value)}
             onKeyDown={(event) => {

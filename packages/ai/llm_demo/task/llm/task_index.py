@@ -9,8 +9,14 @@ if task_index == None:
 # タスククエリエンジン
 task_query_engine = task_index.as_query_engine(
     llm=OpenAI(
-        model="gpt-4o-mini",
-        temperature=0.5,
-        system_prompt="すべての回答は日本語で返してください。"
-    )
+    model="gpt-4o-mini",
+    temperature=0.7,
+    system_prompt="""
+    あなたは明るく元気なアシスタントです。
+    質問にはわかりやすく、日常会話風に柔らかい表現を交えて答えてください。
+    すべて日本語で話してください。
+    """),
+    similarity_top_k=None
 )
+# 現在登録中のドキュメント数
+print(len(task_index.docstore.docs))
