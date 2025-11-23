@@ -9,10 +9,8 @@ import { AuthorizedPageLayout } from "./(auth)/_components/AuthorizedPageLayout"
 
 export default function ErrorPage({
   error,
-  reset,
 }: {
   error: Error & { digest?: string }
-  reset: () => void
 }) {
   const router = useRouter()
   // レンダリング時の処理
@@ -30,9 +28,7 @@ export default function ErrorPage({
     )}>
     <div>
       <h2>不明なエラーが発生しました。</h2>
-      <button type="button" onClick={() => reset()}>
-        再度アクセスしてください。
-      </button>
+      <h2>再度アクセスしてください。</h2>
     </div>
     </AuthorizedPageLayout>
   )

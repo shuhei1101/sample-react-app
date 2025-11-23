@@ -4,13 +4,13 @@ import { useEffect } from "react"
 import { Button } from "@mantine/core"
 import { useRouter } from "next/navigation"
 import { appStorage } from "@/app/(core)/_sessionStorage/appStorage"
+import { AuthorizedPageLayout } from "../../_components/AuthorizedPageLayout"
+import { HOME_URL } from "@/app/(core)/appConstants"
 
 export default function Page({
   error,
-  reset,
 }: {
   error: Error & { digest?: string }
-  reset: () => void
 }) {
   const router = useRouter()
   // レンダリング時の処理
@@ -21,11 +21,14 @@ export default function Page({
   }, [])
 
   return (
+    <AuthorizedPageLayout title="権限エラー" actionButtons={(
+      <Button onClick={() => {
+        router.push(`${HOME_URL}`)
+      }}>ホームへ</Button>
+    )}>
     <div>
-      <h2>権限エラー画面</h2>
-      <button type="button" onClick={() => reset()}>
-        権限のない画面にアクセスしました。
-      </button>
+      <h2>この画面にアクセスする権限がありません。</h2>
     </div>
+    </AuthorizedPageLayout>
   )
 }
