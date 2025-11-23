@@ -94,7 +94,7 @@ function QuestionContent() {
           {/* 送信ボタン */}
           <ActionIcon onClick={()=>{
             onClickSend(prompt)
-          }} variant="light" size="lg" disabled={prompt==""} >
+          }} variant="light" size="lg" disabled={prompt.trim() == "" || loading} >
             <IconSend style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
         </div>
