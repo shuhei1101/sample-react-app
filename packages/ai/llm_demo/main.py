@@ -1,3 +1,4 @@
+import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,7 +15,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",  # Next.js local
-        "https://sample-react-app-z6qm.vercel.app"  # 本番Webアプリ
+        os.environ["PROD_APP_URL"]  # 本番Webアプリ
     ],
     allow_credentials=True,
     allow_methods=["*"],
