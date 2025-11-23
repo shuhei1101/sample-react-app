@@ -56,7 +56,7 @@ function QuestionContent() {
   }
 
   return (
-    <AuthorizedPageLayout title="タスク質問（AI）" actionButtons={(<></>)}>
+    <AuthorizedPageLayout title="タスク質問（AI）" guestNG={true} actionButtons={(<></>)}>
       <div className="flex flex-col"  style={{ height: 'calc(100vh - 140px)' }}>
         {/* チャット表示欄 */}
         <div className="flex flex-col gap-5 flex-1 overflow-y-auto">

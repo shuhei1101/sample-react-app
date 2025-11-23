@@ -60,17 +60,21 @@ export default function Header() {
             label="タスク一覧"
             leftSection={<IconFiles size={16} stroke={1.5} />}
           />
-          <NavLink
-            href={`${TASK_QUESTION_URL}`}
-            label="タスク質問（AI）"
-            leftSection={<IconFiles size={16} stroke={1.5} />}
-          />
           {/* ゲスト以外 */}
-          {!isGuest && <NavLink
+          {!isGuest && 
+          <>
+            <NavLink
             href={`${TASK_NEW_URL}`}
             label="タスク作成"
             leftSection={<IconFilePlus size={16} stroke={1.5} />}
-          />}
+            />
+            <NavLink
+              href={`${TASK_QUESTION_URL}`}
+              label="タスク質問（AI）"
+              leftSection={<IconFiles size={16} stroke={1.5} />}
+            />
+          </>
+          }
         </NavLink>
         <NavLink
           href="#required-for-focus"
