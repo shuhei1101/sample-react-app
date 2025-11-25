@@ -122,7 +122,6 @@ graph LR
   - デプロイ環境: `Vercel`
 - バックエンド: `Next.js(Route Handlers)`
   - APIサーバ: `Route Handlers`
-  - DB: `Supabase`（PostgreSQLベースのクラウドDB）
   - デプロイ環境: `Vercel`
 - LLMサーバ:
   - 言語: Python3.12
@@ -133,6 +132,7 @@ graph LR
   - デプロイ環境: `Docker` + `GCP Cloud Run`
   - ストレージ: `GCP Cloud Storage`
   - CI/CD: `GitHub Actions`
+- DB: `Supabase`（PostgreSQLベースのクラウドDB）
 - エディタ: `VSCode`
 
 - 補足: 学習も兼ねたプロジェクトのため、AI Agent等のAIサービスは利用していません。
