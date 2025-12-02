@@ -198,43 +198,6 @@ Direction BT
 
 - ※作成日時、更新日時は省略しています。
 
-
-## CRUDの処理イメージ
-CQRS原則に基づき、`更新系はAPI経由`、`参照系はクライアント直アクセス`としています。
-### 登録、更新、削除
-- データ更新時は`楽観的排他チェック`（存在確認、更新／削除確認）を行います。
-- Supabaseは呼び出し側でトランザクション制御ができないため、必要に応じてストアド・プロシージャを作成しました。
-```mermaid
-sequenceDiagram
-  participant Client as クライアント
-  participant Server as APIサーバ
-  participant DB
-
-
-  Client ->> Server: 更新データ
-  Server ->> DB: CUDクエリ実行
-```
----
-### 読込
-- クライアントからは`読み取りクエリのみ許可`します。
-```mermaid
-%%{init: {
-  "themeVariables": {
-    "actorBkg": "#fdf6e3",
-    "actorBorder": "#333",
-    "actorTextColor": "#000"
-  }
-}}%%
-sequenceDiagram
-  participant Client as クライアント
-  participant Server as APIサーバ
-  participant DB
-
-
-  Client -->> DB: Readクエリ実行
-  DB -->> Client: データ
-```
-
 ## 認証・認可
 ### ユーザ登録処理
 - ユーザ登録は主に２段階に分かれています。
