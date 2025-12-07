@@ -107,7 +107,6 @@ graph LR
 
   subgraph header [ヘッダ]
     メニュー
-    ログアウト
   end
 ```
 
