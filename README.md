@@ -2,14 +2,14 @@
 | ---------- | -------------------------------- | ---------- |
 | 1.0.0      | README作成                       | 2025-11-4  |
 | 1.1.0      | AIチャットボット機能の追加 | 2025-11-23 |
-| 1.1.1      | GCPのシステム構成図を追加        | 2025-11-23 |
+| 1.1.1      | システム構成図を追加        | 2025-11-23 |
 
 
 ## はじめに
 御覧いただきありがとうございます。\
 本アプリは、ポートフォリオ用に作成したWebアプリです。\
 Next.jsとSupabaseを使用し、`ログイン認証`から`CRUD`までWebアプリ全体を通した機能を実装しました。\
-また、Pythonのllama-indexとGCPで簡易LLMサーバを構築し、`チャットボット機能`も導入しています。\
+また、PythonとGCPで簡易LLMサーバを構築し、`チャットボット機能`も導入しています。\
 以下リンクより実際に操作してお試しください。\
 \
 [【サンプルアプリを起動する】](https://sample-react-app-z6qm.vercel.app/login)\
@@ -107,7 +107,6 @@ graph LR
 
   subgraph header [ヘッダ]
     メニュー
-    ログアウト
   end
 ```
 
@@ -122,7 +121,6 @@ graph LR
   - デプロイ環境: `Vercel`
 - バックエンド: `Next.js(Route Handlers)`
   - APIサーバ: `Route Handlers`
-  - DB: `Supabase`（PostgreSQLベースのクラウドDB）
   - デプロイ環境: `Vercel`
 - LLMサーバ:
   - 言語: Python3.12
@@ -133,6 +131,7 @@ graph LR
   - デプロイ環境: `Docker` + `GCP Cloud Run`
   - ストレージ: `GCP Cloud Storage`
   - CI/CD: `GitHub Actions`
+- DB: `Supabase`（PostgreSQLベースのクラウドDB）
 - エディタ: `VSCode`
 
 - 補足: 学習も兼ねたプロジェクトのため、AI Agent等のAIサービスは利用していません。
@@ -197,43 +196,6 @@ Direction BT
 ```
 
 - ※作成日時、更新日時は省略しています。
-
-
-## CRUDの処理イメージ
-CQRS原則に基づき、`更新系はAPI経由`、`参照系はクライアント直アクセス`としています。
-### 登録、更新、削除
-- データ更新時は`楽観的排他チェック`（存在確認、更新／削除確認）を行います。
-- Supabaseは呼び出し側でトランザクション制御ができないため、必要に応じてストアド・プロシージャを作成しました。
-```mermaid
-sequenceDiagram
-  participant Client as クライアント
-  participant Server as APIサーバ
-  participant DB
-
-
-  Client ->> Server: 更新データ
-  Server ->> DB: CUDクエリ実行
-```
----
-### 読込
-- クライアントからは`読み取りクエリのみ許可`します。
-```mermaid
-%%{init: {
-  "themeVariables": {
-    "actorBkg": "#fdf6e3",
-    "actorBorder": "#333",
-    "actorTextColor": "#000"
-  }
-}}%%
-sequenceDiagram
-  participant Client as クライアント
-  participant Server as APIサーバ
-  participant DB
-
-
-  Client -->> DB: Readクエリ実行
-  DB -->> Client: データ
-```
 
 ## 認証・認可
 ### ユーザ登録処理
